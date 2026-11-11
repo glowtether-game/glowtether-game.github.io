@@ -1,0 +1,25 @@
+{
+  "id": "/",
+  "name": "Glow Tether",
+  "short_name": "Glow Tether",
+  "description": "Grab glowing anchors, swing, and climb. 10 stages, an endless climb and a daily track. Free, no ads, works offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "landscape",
+  "background_color": "#0a0a1c",
+  "theme_color": "#0a0a1c",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["games"],
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "screenshots": [
+    {"src": "screenshots/menu.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide", "label": "Stage select"},
+    {"src": "screenshots/play.png", "sizes": "1280x720", "type": "image/png", "form_factor": "wide", "label": "Swinging up the cave"}
+  ]
+}
