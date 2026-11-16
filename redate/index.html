@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redate</title>
+<meta name="description" content="Put the dates back on your Google Photos (Google Takeout) export. Photos and videos keep their real date. Runs on your PC; nothing is uploaded.">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<script src="vendor/piexif.js"></script>
+</head>
+<body>
+<header class="bar"><div class="brand"><img src="icons/icon-192.png" alt="" width="26" height="26"><span>Redate</span></div></header>
+<main id="main">
+  <p class="msg" id="msg" hidden></p>
+  <section id="start" class="empty">
+    <div class="drop" id="drop" tabindex="0">
+      <h1 data-i18n="drop">Drop your Takeout zip files or the extracted Takeout folder here</h1>
+      <p class="sub" data-i18n="sub">Everything happens on this PC. Nothing is uploaded.</p>
+      <div class="row"><button class="btn primary big" id="zipBtn" data-i18n="chooseZip">Choose zip files</button><button class="btn big" id="dirBtn" data-i18n="chooseFolder">Choose a folder</button></div>
+      <p class="small" data-i18n="how">How to get your files from Google: takeout.google.com › select Google Photos › export.</p>
+    </div>
+    <p class="tag" data-i18n="tag">Put the dates back on your Google Photos export</p>
+  </section>
+  <section id="busy" class="busy" hidden><div class="spin"></div><span id="busyText"></span><progress id="bar" max="1" value="0" hidden></progress></section>
+  <section id="report" class="card" hidden>
+    <h2 data-i18n="report">What we found</h2>
+    <ul class="stats" id="stats"></ul>
+    <fieldset>
+      <legend data-i18n="optLayout">Folders</legend>
+      <label><input type="radio" name="layout" checked> <span data-i18n="optKeep">Keep the Takeout folders</span></label>
+      <label><input type="radio" name="layout" id="optYm"> <span data-i18n="optYm">Sort into Year / Month folders</span> <span class="badge" id="optYmBadge">Pro</span></label>
+    </fieldset>
+    <label><input type="checkbox" id="optDup"> <span data-i18n="optDup">Leave out duplicate copies</span> <span class="badge" id="optDupBadge">Pro</span></label>
+    <label><input type="checkbox" id="optExif" checked> <span data-i18n="optExif">Write the date into JPEG photos (EXIF)</span></label>
+    <label><input type="checkbox" id="optGeo"> <span data-i18n="optGeo">Also write the location into JPEG photos when it is missing</span></label>
+    <p class="note" id="freeNote" hidden></p>
+    <div class="row"><button class="btn primary big" id="startBtn" data-i18n="start">Restore dates</button></div>
+  </section>
+  <section id="finish" class="card" hidden>
+    <h2 data-i18n="done">Done</h2>
+    <p id="doneText"></p>
+    <div class="row"><button class="btn" id="againBtn" data-i18n="again">Start over</button></div>
+  </section>
+</main>
+<input type="file" id="zipIn" accept=".zip,application/zip" multiple hidden>
+<input type="file" id="dirIn" webkitdirectory hidden>
+<footer class="foot"><a href="privacy.html" data-i18n="privacy">Privacy</a><span>·</span><span id="ver"></span></footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

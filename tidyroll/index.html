@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tidyroll</title>
+<meta name="description" content="Bring iPhone photos to Windows: convert HEIC to JPG, sort by date, keep Live Photo videos apart and leave out duplicates. Runs on your PC; nothing is uploaded.">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<script src="vendor/piexif.js"></script>
+</head>
+<body>
+<header class="bar"><div class="brand"><img src="icons/icon-192.png" alt="" width="26" height="26"><span>Tidyroll</span></div></header>
+<main id="main">
+  <p class="msg" id="msg" hidden></p>
+  <section id="start" class="empty">
+    <div class="drop" id="drop" tabindex="0">
+      <h1 data-i18n="drop">Drop iPhone photos (HEIC) or a whole folder here</h1>
+      <p class="sub" data-i18n="sub">Converted on this PC. Nothing is uploaded.</p>
+      <div class="row"><button class="btn primary big" id="fileBtn" data-i18n="chooseFiles">Choose photos</button><button class="btn big" id="dirBtn" data-i18n="chooseFolder">Choose a folder</button></div>
+    </div>
+    <p class="tag" data-i18n="tag">HEIC to JPG, sorted by date, Live Photo videos kept apart</p>
+  </section>
+  <section id="busy" class="busy" hidden><div class="spin"></div><span id="busyText"></span><progress id="bar" max="1" value="0" hidden></progress></section>
+  <section id="report" class="card" hidden>
+    <h2 data-i18n="report">What we found</h2>
+    <ul class="stats" id="stats"></ul>
+    <fieldset>
+      <legend data-i18n="optLayout">Folders</legend>
+      <label><input type="radio" name="layout" checked> <span data-i18n="optFlat">All in one folder</span></label>
+      <label><input type="radio" name="layout" id="optYm"> <span data-i18n="optYm">Sort into Year / Month folders</span> <span class="badge" id="optYmBadge">Pro</span></label>
+    </fieldset>
+    <label><input type="checkbox" id="optLive"> <span data-i18n="optLive">Put Live Photo videos in their own folder</span> <span class="badge" id="optLiveBadge">Pro</span></label>
+    <label><input type="checkbox" id="optDup"> <span data-i18n="optDup">Leave out duplicates</span> <span class="badge" id="optDupBadge">Pro</span></label>
+    <label><input type="checkbox" id="optGeo"> <span data-i18n="optGeo">Remove location from the photos</span> <span class="badge" id="optGeoBadge">Pro</span></label>
+    <label><input type="checkbox" id="optKeep"> <span data-i18n="optKeep">Also keep the original HEIC files</span></label>
+    <label><span data-i18n="quality">JPG quality</span> <input type="range" id="quality" min="70" max="100" value="92"> <span id="qv">92</span></label>
+    <p class="note" id="freeNote" hidden></p>
+    <div class="row"><button class="btn primary big" id="startBtn" data-i18n="start">Convert and save</button></div>
+  </section>
+  <section id="finish" class="card" hidden>
+    <h2 data-i18n="done">Done</h2>
+    <p id="doneText"></p>
+    <div class="row"><button class="btn" id="againBtn" data-i18n="again">Start over</button></div>
+  </section>
+</main>
+<input type="file" id="fileIn" accept=".heic,.heif,.jpg,.jpeg,.png,.mov,.mp4,image/*,video/*" multiple hidden>
+<input type="file" id="dirIn" webkitdirectory hidden>
+<footer class="foot"><a href="privacy.html" data-i18n="privacy">Privacy</a><span>·</span><span id="ver"></span><span>·</span><a href="vendor/LICENSE-libheif.txt">libheif (LGPL)</a></footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import { readTables, readLegacyTables, tableById, formatCell } from './src/table
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.1.1';
+const VERSION = '1.2.0';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -36,6 +36,7 @@ const T = {
     'err-no-index': 'The document contents are missing. If you received a folder, use “Open the folder instead”.',
     'err-bad-index': 'The document contents could not be read. Ask the sender to save it again with a current version of Pages, Numbers or Keynote.',
     'err-generic': 'Something went wrong while reading the file.',
+    proFree: 'Pro · {n} free', proFreeUsed: 'That was your last free Pro save. Get Pro to keep saving as Word, Excel and pictures.',
     proTitle: 'Docpeek Pro', proBody: 'Saving as Word, Excel and the picture zip is part of Docpeek Pro. Viewing, text, CSV and printing stay free.',
     proOnce: 'One payment, no subscription. It stays with your Microsoft account.', proBuy: 'Get Pro', proBuyP: 'Get Pro for {p}', proRestore: 'I already bought Pro',
     proWeb: 'Docpeek Pro is sold in the Microsoft Store app. Install Docpeek from the Store, then get Pro there.', proOpenStore: 'Open in Microsoft Store', proStorePage: 'Store page',
@@ -69,6 +70,7 @@ const T = {
     'err-no-index': '書類の中身が見つかりません。フォルダーとして受け取った場合は「フォルダーを開く」を使ってください。',
     'err-bad-index': '書類の中身を読み取れませんでした。送った人に、新しい版の Pages・Numbers・Keynote で保存し直してもらってください。',
     'err-generic': 'ファイルの読み込み中に問題が起きました。',
+    proFree: 'Pro・あと{n}回無料', proFreeUsed: '無料の Pro 保存はこれで最後です。続けて Word・Excel・画像で保存するには Pro にしてください。',
     proTitle: 'Docpeek Pro', proBody: 'Word・Excel・画像まとめでの保存は Docpeek Pro の機能です。表示・テキスト・CSV・印刷は無料のまま使えます。',
     proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。', proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら',
     proWeb: 'Docpeek Pro は Microsoft Store 版で販売しています。Store から Docpeek を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proStorePage: 'Store のページ',
@@ -297,12 +299,23 @@ async function copyTable(tb) {
 }
 
 // ---------- export ----------
+
+// The first FREE_TRIES Pro saves are free, so people can see what Pro gives before buying.
+const FREE_TRIES = 3;
+function freeLeft() { try { return Math.max(0, FREE_TRIES - Number(localStorage.getItem('docpeek-pro-tries') || 0)); } catch (e) { return 0; } }
+function useFree() { try { localStorage.setItem('docpeek-pro-tries', String(FREE_TRIES - freeLeft() + 1)); } catch (e) {} }
 function buildExportMenu() {
   const d = state.doc, m = $('exportMenu'); m.replaceChildren();
   const item = (label, sub, fn, pro = false) => {
     const lock = pro && !hasPro();
-    m.append(h('button', { role: 'menuitem', class: lock ? 'locked' : null, onclick: () => { closeMenu(); if (pro && !hasPro()) showPro(fn); else fn(); } },
-      h('span', { class: 'mi' }, label, lock ? h('span', { class: 'badge', text: 'Pro' }) : null), h('small', { text: sub })));
+    const left = freeLeft();
+    const badge = lock ? (left > 0 ? t('proFree', { n: left }) : 'Pro') : null;
+    m.append(h('button', { role: 'menuitem', class: lock && !left ? 'locked' : null, onclick: () => {
+      closeMenu();
+      if (!(pro && !hasPro())) return fn();
+      if (freeLeft() > 0) { useFree(); fn(); if (freeLeft() === 0) toast(t('proFreeUsed')); buildExportMenu(); return; }
+      showPro(fn);
+    } }, h('span', { class: 'mi' }, label, badge ? h('span', { class: 'badge', text: badge }) : null), h('small', { text: sub })));
   };
   const name = baseName(state.name);
   const imgs = d.kind === 'keynote' ? collectKeynoteImages(d) : d.allImages;

@@ -1,0 +1,75 @@
+{
+ "id": "./",
+ "name": "Redate",
+ "short_name": "Redate",
+ "description": "Put the dates back on your Google Photos (Google Takeout) export. Runs on your PC; nothing is uploaded.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#f6f7f9",
+ "theme_color": "#f6f7f9",
+ "lang": "en",
+ "dir": "ltr",
+ "categories": [
+  "photo",
+  "utilities",
+  "productivity"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "file_handlers": [
+  {
+   "action": "./",
+   "accept": {
+    "application/zip": [
+     ".zip"
+    ]
+   }
+  }
+ ],
+ "launch_handler": {
+  "client_mode": "focus-existing"
+ },
+ "screenshots": [
+  {
+   "src": "screenshots/en-1-start.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/en-2-report.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/ja-1-start.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/ja-2-report.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  }
+ ]
+}

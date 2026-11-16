@@ -1,0 +1,84 @@
+{
+ "id": "./",
+ "name": "Tidyroll",
+ "short_name": "Tidyroll",
+ "description": "Bring iPhone photos to Windows: convert HEIC to JPG, sort by date, split Live Photo videos, drop duplicates. Nothing is uploaded.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#f6f7f9",
+ "theme_color": "#f6f7f9",
+ "lang": "en",
+ "dir": "ltr",
+ "categories": [
+  "photo",
+  "utilities",
+  "productivity"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "file_handlers": [
+  {
+   "action": "./",
+   "accept": {
+    "image/heic": [
+     ".heic"
+    ],
+    "image/heif": [
+     ".heif"
+    ]
+   }
+  }
+ ],
+ "launch_handler": {
+  "client_mode": "focus-existing"
+ },
+ "screenshots": [
+  {
+   "src": "screenshots/en-1-start.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/en-2-report.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/en-dark-2-report.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/ja-1-start.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/ja-2-report.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  }
+ ]
+}
