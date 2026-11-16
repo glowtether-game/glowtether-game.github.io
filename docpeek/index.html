@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Docpeek</title>
+<meta name="description" content="Open Apple Pages, Numbers and Keynote files on Windows. Read text, tables and slides, and save them as Word, Excel or text. Files never leave your PC.">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="bar">
+  <div class="brand"><img src="icons/icon-192.png" alt="" width="26" height="26"><span>Docpeek</span></div>
+  <div class="docname" id="docname" hidden></div>
+  <div class="actions">
+    <button class="btn" id="btnOpen" data-i18n="open">Open</button>
+    <div class="menuwrap" id="exportWrap" hidden>
+      <button class="btn primary" id="btnExport" aria-haspopup="menu" aria-expanded="false"><span data-i18n="save">Save as</span> ▾</button>
+      <div class="menu" id="exportMenu" role="menu" hidden></div>
+    </div>
+    <button class="btn icon" id="btnPrint" hidden data-i18n-title="print" title="Print / PDF" aria-label="Print"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 3h10v4H7zM5 8h14a2 2 0 0 1 2 2v6h-4v4H7v-4H3v-6a2 2 0 0 1 2-2zm4 7v3h6v-3zm9-4.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="empty" id="empty">
+    <div class="drop" id="drop" tabindex="0">
+      <svg class="drop-ico" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true"><rect x="12" y="6" width="34" height="44" rx="5" fill="var(--paper)" stroke="var(--line-strong)" stroke-width="2"/><path d="M20 18h18M20 25h18M20 32h12" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round"/><circle cx="44" cy="46" r="12" fill="var(--accent)"/><path d="M44 40v12M38 46l6 6 6-6" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h1 data-i18n="dropTitle">Open a Pages, Numbers or Keynote file</h1>
+      <p class="sub" data-i18n="dropSub">Drag a .pages, .numbers or .key file here, or choose one.</p>
+      <div class="row">
+        <button class="btn primary big" id="btnOpen2" data-i18n="choose">Choose a file</button>
+      </div>
+      <p class="small"><button class="link" id="btnFolder" data-i18n="openFolder">The file is a folder? Open the folder instead</button></p>
+    </div>
+    <ul class="points">
+      <li><b data-i18n="p1t">Stays on your PC</b><span data-i18n="p1">Your file is read right here. Nothing is uploaded, and there is no account.</span></li>
+      <li><b data-i18n="p2t">Text, tables, slides</b><span data-i18n="p2">Pages documents, Numbers sheets (every table) and Keynote slides with notes and images.</span></li>
+      <li><b data-i18n="p3t">Save in Office formats</b><span data-i18n="p3">Save as Word, Excel, CSV or text, or print to PDF.</span></li>
+    </ul>
+  </section>
+  <section id="view" hidden></section>
+  <div class="busy" id="busy" hidden><div class="spin"></div><span data-i18n="reading">Reading…</span></div>
+</main>
+
+<input type="file" id="file" accept=".pages,.numbers,.key,.zip,application/vnd.apple.pages,application/vnd.apple.numbers,application/vnd.apple.keynote" hidden>
+<input type="file" id="folder" webkitdirectory hidden>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<footer class="foot"><a href="privacy.html" data-i18n="privacy">Privacy</a><span>·</span><span id="ver">v1.0.0</span></footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>
