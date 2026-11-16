@@ -2,9 +2,10 @@ import { unzipSync, gunzipSync, zipSync } from './vendor/fflate.js';
 import { readDocument } from './src/iwa.js';
 import { readTables, readLegacyTables, tableById, formatCell } from './src/tables.js';
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
+import { makePptx } from './src/pptx.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.2.0';
+const VERSION = '1.3.0';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -15,7 +16,7 @@ const T = {
     openFolder: 'The file is a folder? Open the folder instead',
     p1t: 'Stays on your PC', p1: 'Your file is read right here. Nothing is uploaded, and there is no account.',
     p2t: 'Text, tables, slides', p2: 'Pages documents, Numbers sheets (every table) and Keynote slides with notes and images.',
-    p3t: 'Save in Office formats', p3: 'Save as Word, Excel, CSV or text, or print to PDF.',
+    p3t: 'Save in Office formats', p3: 'Save as Word, Excel, PowerPoint, CSV or text, or print to PDF.',
     pages: 'Pages', numbers: 'Numbers', keynote: 'Keynote',
     textBoxes: 'Text boxes', headers: 'Headers and footers', footnotes: 'Footnotes', comments: 'Comments', images: 'Images', tables: 'Tables',
     firstPage: 'Picture of the first page (saved inside the file)', noText: 'No text was found in this document.',
@@ -26,7 +27,7 @@ const T = {
     layoutNote: 'Docpeek shows the text, tables and pictures. Fonts, colours and exact layout are not reproduced.',
     exDocx: 'Word document (.docx)', exDocxS: 'Text of the document, editable in Word', exTxt: 'Text (.txt)', exTxtS: 'Plain text',
     exXlsx: 'Excel workbook (.xlsx)', exXlsxS: 'Every table as a separate sheet', exCsv: 'CSV of the table you are viewing (.csv)', exCsvS: 'Opens in Excel; UTF-8 with BOM',
-    exOutline: 'Slide text and notes (.txt)', exOutlineS: 'Titles, bullet points and presenter notes',
+    exPptx: 'PowerPoint (.pptx)', exPptxS: 'Editable slides: titles, bullet points, pictures, tables and presenter notes', exOutline: 'Slide text and notes (.txt)', exOutlineS: 'Titles, bullet points and presenter notes',
     exImages: 'All pictures (.zip)', exImagesS: '{n} picture(s) in the file', exPrint: 'Print or save as PDF', exPrintS: 'Use “Microsoft Print to PDF” to make a PDF',
     saved: 'Saved {f}', copied: 'Table copied. Paste it into Excel or Word.', notSupported: 'This file type is not supported.',
     errTitle: 'This file could not be opened', tryAgain: 'Choose another file',
@@ -36,8 +37,8 @@ const T = {
     'err-no-index': 'The document contents are missing. If you received a folder, use “Open the folder instead”.',
     'err-bad-index': 'The document contents could not be read. Ask the sender to save it again with a current version of Pages, Numbers or Keynote.',
     'err-generic': 'Something went wrong while reading the file.',
-    proFree: 'Pro · {n} free', proFreeUsed: 'That was your last free Pro save. Get Pro to keep saving as Word, Excel and pictures.',
-    proTitle: 'Docpeek Pro', proBody: 'Saving as Word, Excel and the picture zip is part of Docpeek Pro. Viewing, text, CSV and printing stay free.',
+    proFree: 'Pro · {n} free', proFreeUsed: 'That was your last free Pro save. Get Pro to keep saving as Word, Excel, PowerPoint and pictures.',
+    proTitle: 'Docpeek Pro', proBody: 'Saving as Word, Excel, PowerPoint and the picture zip is part of Docpeek Pro. Viewing, text, CSV and printing stay free.',
     proOnce: 'One payment, no subscription. It stays with your Microsoft account.', proBuy: 'Get Pro', proBuyP: 'Get Pro for {p}', proRestore: 'I already bought Pro',
     proWeb: 'Docpeek Pro is sold in the Microsoft Store app. Install Docpeek from the Store, then get Pro there.', proOpenStore: 'Open in Microsoft Store', proStorePage: 'Store page',
     proLater: 'Not now', proThanks: 'Thank you! Docpeek Pro is ready.', proNone: 'No Pro purchase was found for this Microsoft account.', proFail: 'The purchase did not go through. Nothing was charged.', proOwned: 'Pro',
@@ -49,7 +50,7 @@ const T = {
     openFolder: 'ファイルがフォルダーになっている場合は、フォルダーを開く',
     p1t: 'PC の外に出ません', p1: 'ファイルはこの PC の中だけで読みます。アップロードもアカウントもありません。',
     p2t: '文字・表・スライド', p2: 'Pages の文書、Numbers のシート（すべての表）、Keynote のスライドとメモ・画像。',
-    p3t: 'Office 形式で保存', p3: 'Word・Excel・CSV・テキストで保存したり、PDF に印刷したりできます。',
+    p3t: 'Office 形式で保存', p3: 'Word・Excel・PowerPoint・CSV・テキストで保存したり、PDF に印刷したりできます。',
     pages: 'Pages', numbers: 'Numbers', keynote: 'Keynote',
     textBoxes: 'テキストボックス', headers: 'ヘッダ・フッタ', footnotes: '脚注', comments: 'コメント', images: '画像', tables: '表',
     firstPage: '1ページ目の画像（ファイルの中に保存されているもの）', noText: 'この書類には文字が見つかりませんでした。',
@@ -60,7 +61,7 @@ const T = {
     layoutNote: 'Docpeek は文字・表・画像を表示します。フォントや色、細かいレイアウトは再現しません。',
     exDocx: 'Word 文書（.docx）', exDocxS: '本文を Word で編集できる形で保存', exTxt: 'テキスト（.txt）', exTxtS: '文字だけ',
     exXlsx: 'Excel ブック（.xlsx）', exXlsxS: '表ごとに1枚のシートとして保存', exCsv: '表示中の表を CSV（.csv）', exCsvS: 'Excel で開けます（UTF-8・BOM付き）',
-    exOutline: 'スライドの文字とメモ（.txt）', exOutlineS: 'タイトル・箇条書き・発表者メモ',
+    exPptx: 'PowerPoint（.pptx）', exPptxS: '編集できるスライド：タイトル・箇条書き・画像・表・発表者メモ', exOutline: 'スライドの文字とメモ（.txt）', exOutlineS: 'タイトル・箇条書き・発表者メモ',
     exImages: 'すべての画像（.zip）', exImagesS: 'ファイル内の画像 {n} 枚', exPrint: '印刷または PDF で保存', exPrintS: '「Microsoft Print to PDF」を選ぶと PDF になります',
     saved: '{f} を保存しました', copied: '表をコピーしました。Excel や Word に貼り付けられます。', notSupported: 'この種類のファイルには対応していません。',
     errTitle: 'このファイルは開けませんでした', tryAgain: '別のファイルを選ぶ',
@@ -70,8 +71,8 @@ const T = {
     'err-no-index': '書類の中身が見つかりません。フォルダーとして受け取った場合は「フォルダーを開く」を使ってください。',
     'err-bad-index': '書類の中身を読み取れませんでした。送った人に、新しい版の Pages・Numbers・Keynote で保存し直してもらってください。',
     'err-generic': 'ファイルの読み込み中に問題が起きました。',
-    proFree: 'Pro・あと{n}回無料', proFreeUsed: '無料の Pro 保存はこれで最後です。続けて Word・Excel・画像で保存するには Pro にしてください。',
-    proTitle: 'Docpeek Pro', proBody: 'Word・Excel・画像まとめでの保存は Docpeek Pro の機能です。表示・テキスト・CSV・印刷は無料のまま使えます。',
+    proFree: 'Pro・あと{n}回無料', proFreeUsed: '無料の Pro 保存はこれで最後です。続けて Word・Excel・PowerPoint・画像で保存するには Pro にしてください。',
+    proTitle: 'Docpeek Pro', proBody: 'Word・Excel・PowerPoint・画像まとめでの保存は Docpeek Pro の機能です。表示・テキスト・CSV・印刷は無料のまま使えます。',
     proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。', proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら',
     proWeb: 'Docpeek Pro は Microsoft Store 版で販売しています。Store から Docpeek を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proStorePage: 'Store のページ',
     proLater: 'あとで', proThanks: 'ありがとうございます。Docpeek Pro が使えるようになりました。', proNone: 'この Microsoft アカウントでは Pro の購入が見つかりませんでした。', proFail: '購入は完了しませんでした。料金はかかっていません。', proOwned: 'Pro',
@@ -328,6 +329,11 @@ function buildExportMenu() {
     const tables = state.sheets.flatMap((s) => s.tables).filter((x) => x.rows.length);
     if (tables.length) item(t('exXlsx'), t('exXlsxS'), () => saveFile(makeXlsx(zipSync, tables), name + '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'), true);
   } else if (d.kind === 'keynote') {
+    item(t('exPptx'), t('exPptxS'), () => {
+      const caches = new Map();
+      const slides = d.slides.map((s) => ({ ...s, tableRows: s.tableIds && !d.pkg.legacy ? s.tableIds.map((id) => tableById(d.pkg, id, caches)).filter((tb) => tb && tb.rows.length).map((tb) => tb.rows.map((r) => r.map((c) => formatCell(c)))) : [] }));
+      saveFile(makePptx(zipSync, { slides }, { title: name }), name + '.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'pptx');
+    }, true);
     item(t('exOutline'), t('exOutlineS'), () => saveFile(makeTxt(keynoteOutline(d)), name + '.txt', 'text/plain', 'txt'));
     item(t('exDocx'), t('exOutlineS'), () => {
       const paras = []; for (const s of d.slides) { paras.push(`${t('slide')} ${s.index}${s.title ? ': ' + s.title : ''}`); for (const b of s.body) paras.push(b); if (s.notes) paras.push(`[${t('notes')}] ${s.notes}`); paras.push(''); }
