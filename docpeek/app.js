@@ -4,7 +4,7 @@ import { readTables, readLegacyTables, tableById, formatCell } from './src/table
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
