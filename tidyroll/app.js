@@ -4,7 +4,7 @@ import { kindOf, markLive, videoDate, dateFromName, outName } from './src/photos
 
 const VERSION = '1.0.0';
 const FREE_LIMIT = 20;
-const pro = makePro({ sku: 'tidyroll_pro', storeId: 'TIDYROLL_STORE_ID', key: 'tidyroll-pro' });
+const pro = makePro({ sku: 'tidyroll_pro', storeId: '9PB5N6WJPHNV', key: 'tidyroll-pro' });
 
 const T = {
   en: {

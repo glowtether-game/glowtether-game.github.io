@@ -5,7 +5,7 @@ import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
 
 const VERSION = '1.0.0';
 const FREE_LIMIT = 100;
-const pro = makePro({ sku: 'redate_pro', storeId: 'REDATE_STORE_ID', key: 'redate-pro' });
+const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 
 const T = {
   en: {
