@@ -2,8 +2,9 @@ import { unzipSync, gunzipSync, zipSync } from './vendor/fflate.js';
 import { readDocument } from './src/iwa.js';
 import { readTables, readLegacyTables, tableById, formatCell } from './src/tables.js';
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
+import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -35,6 +36,10 @@ const T = {
     'err-no-index': 'The document contents are missing. If you received a folder, use “Open the folder instead”.',
     'err-bad-index': 'The document contents could not be read. Ask the sender to save it again with a current version of Pages, Numbers or Keynote.',
     'err-generic': 'Something went wrong while reading the file.',
+    proTitle: 'Docpeek Pro', proBody: 'Saving as Word, Excel and the picture zip is part of Docpeek Pro. Viewing, text, CSV and printing stay free.',
+    proOnce: 'One payment, no subscription. It stays with your Microsoft account.', proBuy: 'Get Pro', proBuyP: 'Get Pro for {p}', proRestore: 'I already bought Pro',
+    proWeb: 'Docpeek Pro is sold in the Microsoft Store app. Install Docpeek from the Store, then get Pro there.', proOpenStore: 'Open in Microsoft Store', proStorePage: 'Store page',
+    proLater: 'Not now', proThanks: 'Thank you! Docpeek Pro is ready.', proNone: 'No Pro purchase was found for this Microsoft account.', proFail: 'The purchase did not go through. Nothing was charged.', proOwned: 'Pro',
     tooBig: 'Large file: showing the first {n} rows of each table. Everything is included when you save as Excel.',
   },
   ja: {
@@ -64,6 +69,10 @@ const T = {
     'err-no-index': '書類の中身が見つかりません。フォルダーとして受け取った場合は「フォルダーを開く」を使ってください。',
     'err-bad-index': '書類の中身を読み取れませんでした。送った人に、新しい版の Pages・Numbers・Keynote で保存し直してもらってください。',
     'err-generic': 'ファイルの読み込み中に問題が起きました。',
+    proTitle: 'Docpeek Pro', proBody: 'Word・Excel・画像まとめでの保存は Docpeek Pro の機能です。表示・テキスト・CSV・印刷は無料のまま使えます。',
+    proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。', proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら',
+    proWeb: 'Docpeek Pro は Microsoft Store 版で販売しています。Store から Docpeek を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proStorePage: 'Store のページ',
+    proLater: 'あとで', proThanks: 'ありがとうございます。Docpeek Pro が使えるようになりました。', proNone: 'この Microsoft アカウントでは Pro の購入が見つかりませんでした。', proFail: '購入は完了しませんでした。料金はかかっていません。', proOwned: 'Pro',
     tooBig: '大きなファイルのため、各表の最初の {n} 行を表示しています。Excel で保存するとすべて入ります。',
   },
 };
@@ -290,31 +299,35 @@ async function copyTable(tb) {
 // ---------- export ----------
 function buildExportMenu() {
   const d = state.doc, m = $('exportMenu'); m.replaceChildren();
-  const item = (label, sub, fn) => m.append(h('button', { role: 'menuitem', onclick: () => { closeMenu(); fn(); } }, label, h('small', { text: sub })));
+  const item = (label, sub, fn, pro = false) => {
+    const lock = pro && !hasPro();
+    m.append(h('button', { role: 'menuitem', class: lock ? 'locked' : null, onclick: () => { closeMenu(); if (pro && !hasPro()) showPro(fn); else fn(); } },
+      h('span', { class: 'mi' }, label, lock ? h('span', { class: 'badge', text: 'Pro' }) : null), h('small', { text: sub })));
+  };
   const name = baseName(state.name);
   const imgs = d.kind === 'keynote' ? collectKeynoteImages(d) : d.allImages;
   if (d.kind === 'pages') {
     item(t('exDocx'), t('exDocxS'), () => {
       const extra = [{ heading: t('textBoxes'), items: d.textBoxes }, { heading: t('headers'), items: d.headers }, { heading: t('footnotes'), items: d.footnotes }];
       saveFile(makeDocx(zipSync, { title: '', paragraphs: d.paragraphs, extraSections: extra }), name + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx');
-    });
+    }, true);
     item(t('exTxt'), t('exTxtS'), () => saveFile(makeTxt(pagesText(d)), name + '.txt', 'text/plain', 'txt'));
     const tables = state.sheets.flatMap((s) => s.tables).filter((x) => x.rows.length);
-    if (tables.length) item(t('exXlsx'), t('exXlsxS'), () => saveFile(makeXlsx(zipSync, tables), name + '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'));
+    if (tables.length) item(t('exXlsx'), t('exXlsxS'), () => saveFile(makeXlsx(zipSync, tables), name + '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'), true);
   } else if (d.kind === 'keynote') {
     item(t('exOutline'), t('exOutlineS'), () => saveFile(makeTxt(keynoteOutline(d)), name + '.txt', 'text/plain', 'txt'));
     item(t('exDocx'), t('exOutlineS'), () => {
       const paras = []; for (const s of d.slides) { paras.push(`${t('slide')} ${s.index}${s.title ? ': ' + s.title : ''}`); for (const b of s.body) paras.push(b); if (s.notes) paras.push(`[${t('notes')}] ${s.notes}`); paras.push(''); }
       saveFile(makeDocx(zipSync, { title: name, paragraphs: paras }), name + '.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'docx');
-    });
+    }, true);
   } else {
     const all = state.sheets.flatMap((s) => s.tables.filter((x) => x.rows.length).map((x) => ({ ...x, name: (state.sheets.length > 1 || s.tables.length > 1) && s.name ? `${s.name} - ${x.name}` : (x.name || s.name) })));
     if (all.length) {
-      item(t('exXlsx'), t('exXlsxS'), () => saveFile(makeXlsx(zipSync, all), name + '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'));
+      item(t('exXlsx'), t('exXlsxS'), () => saveFile(makeXlsx(zipSync, all), name + '.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'xlsx'), true);
       item(t('exCsv'), t('exCsvS'), () => { const s = state.sheets[state.activeSheet]; const tb = s.tables.find((x) => x.rows.length) || all[0]; saveFile(makeCsv(tb.rows), `${name} - ${tb.name || s.name}.csv`.replace(/[\\/:*?"<>|]/g, '_'), 'text/csv', 'csv'); });
     }
   }
-  if (imgs.length) item(t('exImages'), t('exImagesS', { n: imgs.length }), () => saveFile(makeImageZip(zipSync, imgs), name + ' images.zip', 'application/zip', 'zip'));
+  if (imgs.length) item(t('exImages'), t('exImagesS', { n: imgs.length }), () => saveFile(makeImageZip(zipSync, imgs), name + ' images.zip', 'application/zip', 'zip'), true);
   item(t('exPrint'), t('exPrintS'), () => window.print());
 }
 function collectKeynoteImages(d) {
@@ -325,6 +338,43 @@ function collectKeynoteImages(d) {
   return out;
 }
 function closeMenu() { $('exportMenu').hidden = true; $('btnExport').setAttribute('aria-expanded', 'false'); }
+
+
+// ---------- Pro ----------
+function showPro(after) {
+  document.querySelector('.modal-back')?.remove();
+  const close = () => { back.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = (e) => { if (e.key === 'Escape') close(); };
+  const msg = h('p', { class: 'pro-msg', role: 'status' });
+  const done = (ok) => { if (ok) { close(); toast(t('proThanks')); updateProMark(); if (state.doc) buildExportMenu(); if (after) after(); } };
+  let actions;
+  if (where() === 'store') {
+    const p = priceText();
+    const buy = h('button', { class: 'btn primary big', onclick: async () => {
+      buy.disabled = true; msg.textContent = '';
+      try { const ok = await buyPro(); if (ok) done(true); else msg.textContent = t('proFail'); } catch (e) { msg.textContent = t('proFail'); }
+      buy.disabled = false;
+    } }, p ? t('proBuyP', { p }) : t('proBuy'));
+    const restore = h('button', { class: 'link', onclick: async () => { const ok = await restorePro(); if (ok) done(true); else msg.textContent = t('proNone'); } }, t('proRestore'));
+    actions = [h('div', { class: 'row' }, buy), h('p', { class: 'small' }, restore)];
+  } else {
+    actions = [h('p', { text: t('proWeb') }), h('div', { class: 'row' },
+      h('a', { class: 'btn primary big', href: STORE_APP }, t('proOpenStore')),
+      h('a', { class: 'btn big', href: STORE_WEB, target: '_blank', rel: 'noopener' }, t('proStorePage')))];
+  }
+  const back = h('div', { class: 'modal-back', onclick: (e) => { if (e.target === back) close(); } },
+    h('div', { class: 'modal', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'proTitle' },
+      h('h2', { id: 'proTitle', text: t('proTitle') }),
+      h('p', { text: t('proBody') }), h('p', { class: 'small', text: t('proOnce') }),
+      ...actions, msg,
+      h('button', { class: 'btn ghost', onclick: close }, t('proLater'))));
+  document.body.append(back);
+  document.addEventListener('keydown', onKey);
+  back.querySelector('.btn.primary, .btn')?.focus();
+}
+function updateProMark() { const el = $('proMark'); if (el) el.hidden = !(proLive() && hasPro()); }
+initPro().then(() => { updateProMark(); if (state.doc && !window.DOCPEEK_PREVIEW) buildExportMenu(); });
+window.__docpeekPro = proTest;
 
 // ---------- events ----------
 $('btnOpen').onclick = $('btnOpen2').onclick = () => $('file').click();

@@ -132,3 +132,17 @@ table.grid thead th { position: sticky; top: 0; background: var(--hdr); color: v
   table.grid tr.h td, table.grid th.rn, table.grid thead th { position: static; }
   .tablecard { break-inside: auto; }
 }
+/* Pro */
+.menu .mi { display: flex; align-items: center; gap: 8px; }
+.badge { font-size: 11px; font-weight: 700; letter-spacing: .03em; padding: 1px 7px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); }
+a.btn { display: inline-block; text-decoration: none; color: inherit; }
+a.btn.primary { color: var(--accent-ink); }
+.btn.ghost { border-color: transparent; background: none; color: var(--muted); margin-top: 6px; }
+.modal-back { position: fixed; inset: 0; background: rgba(10,14,22,.45); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
+.modal { background: var(--paper); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-width: 440px; width: 100%; padding: 22px 22px 14px; }
+.modal h2 { margin: 0 0 8px; font-size: 19px; }
+.modal p { margin: 0 0 10px; line-height: 1.6; font-size: 14px; }
+.modal .small { color: var(--muted); font-size: 12.5px; }
+.modal .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-start; margin: 12px 0 8px; }
+.pro-msg { color: var(--warn); min-height: 1em; }
+.pro-mark { margin-left: 6px; font-weight: 700; color: var(--accent); }
