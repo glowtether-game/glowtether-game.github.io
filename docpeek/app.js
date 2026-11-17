@@ -5,7 +5,7 @@ import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pag
 import { makePptx } from './src/pptx.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.3.0';
+const VERSION = '1.3.1';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------

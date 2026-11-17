@@ -3,7 +3,7 @@
 //
 // PRO_LIVE stays false until the add-on is published in Partner Center. While it is
 // false every feature is free, so this file is safe to deploy at any time.
-export const PRO_LIVE = false;
+export const PRO_LIVE = true;
 export const SKU = 'docpeek_pro';
 export const STORE_ID = '9MWX5B6B0XPM';
 export const STORE_WEB = `https://apps.microsoft.com/detail/${STORE_ID}`;
