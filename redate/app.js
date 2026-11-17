@@ -4,7 +4,7 @@ import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
 
-const VERSION = '1.0.1';
+const VERSION = '1.0.2';
 const FREE_LIMIT = 100;
 const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 
@@ -35,7 +35,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-const nudge = makeNudge({ app: 'Redate', storeId: '9PC1BKKH8RG4', key: 'redate', lang: LANG, where: () => pro.where(), listed: false }); // set listed: true once the Store page is public
+const nudge = makeNudge({ app: 'Redate', storeId: '9PC1BKKH8RG4', key: 'redate', lang: LANG, where: () => pro.where(), listed: true });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
