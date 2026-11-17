@@ -4,7 +4,7 @@ import { inspect, remux } from './src/remux.js';
 
 const VERSION = '1.0.0';
 const FREE_LIMIT = 3;
-const pro = makePro({ sku: 'clipready_pro', storeId: 'XXXXXXXXXXXX', key: 'clipready-pro' });
+const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
 const T = {
   en: {
