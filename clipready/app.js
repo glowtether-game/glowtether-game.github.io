@@ -1,8 +1,9 @@
 import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
+import { makeNudge } from './vendor/nudge.js';
 import { inspect, remux } from './src/remux.js';
 
-const VERSION = '1.0.1';
+const VERSION = '1.0.2';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
@@ -35,6 +36,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where() });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
@@ -157,6 +159,7 @@ async function run() {
       } catch (e) { console.warn(it.path, e); failed.push(`${name} (${e.message})`); }
     }
     show('finish');
+    if (saved) nudge.success();
     const parts = [t('doneText', { n: saved }), dir ? t('savedTo') : t('downloaded')];
     if (todo.some((i) => i.kind === 'video')) parts.push(t('keptDate'));
     $('doneText').textContent = parts.join(' ');
@@ -197,6 +200,6 @@ window.addEventListener('dragleave', (e) => { if (!e.relatedTarget) dz.classList
 window.addEventListener('drop', async (e) => { e.preventDefault(); dz.classList.remove('over'); go(await filesFromDrop(e.dataTransfer)); });
 if ('launchQueue' in window) window.launchQueue.setConsumer(async (p) => { if (p.files?.length) go(await Promise.all(p.files.map(async (h) => ({ file: await h.getFile(), path: h.name })))); });
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
-pro.init();
+Promise.resolve(pro.init()).catch(() => {}).finally(() => nudge.webNote());
 window.__clipready = { go, get items() { return items; }, run, pro };
 show('start');

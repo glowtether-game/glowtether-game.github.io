@@ -1,9 +1,10 @@
 import { Unzip, UnzipInflate } from './vendor/fflate.js';
 import { ZipOut, pickOutputFolder, filesFromDrop, filesFromInput, sha256, exifDate, ym, toBin, fromBin } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
+import { makeNudge } from './vendor/nudge.js';
 import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const FREE_LIMIT = 100;
 const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 
@@ -34,6 +35,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+const nudge = makeNudge({ app: 'Redate', storeId: '9PC1BKKH8RG4', key: 'redate', lang: LANG, where: () => pro.where() });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
@@ -162,6 +164,7 @@ async function run() {
     }
     const files = await out.close();
     show('finish');
+    nudge.success();
     $('doneText').textContent = t('doneText', { files: files.join(', ') }) + ' ' + (dir ? t('savedTo') : t('downloaded'));
   } catch (e) { show('report'); alertBox(t('err', { m: e.message || String(e) })); }
   $('bar').hidden = true;
@@ -197,6 +200,6 @@ window.addEventListener('dragleave', (e) => { if (!e.relatedTarget) dz.classList
 window.addEventListener('drop', async (e) => { e.preventDefault(); dz.classList.remove('over'); go(await filesFromDrop(e.dataTransfer)); });
 if ('launchQueue' in window) window.launchQueue.setConsumer(async (p) => { if (p.files?.length) go(await Promise.all(p.files.map(async (h) => ({ file: await h.getFile(), path: h.name })))); });
 if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
-pro.init();
+Promise.resolve(pro.init()).catch(() => {}).finally(() => nudge.webNote());
 window.__redate = { go, get items() { return items; }, run, pro, show };
 show('start');

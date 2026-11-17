@@ -165,3 +165,4 @@ a.btn.primary { color: var(--accent-ink); }
 .grid figure { margin: 0; background: var(--hdr); border-radius: 8px; overflow: hidden; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; position: relative; }
 .grid img { width: 100%; height: 100%; object-fit: cover; }
 .grid figcaption { position: absolute; left: 0; right: 0; bottom: 0; font-size: 11px; background: rgba(0,0,0,.55); color: #fff; padding: 2px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+select { font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); margin-left: 6px; }

@@ -3,9 +3,10 @@ import { readDocument } from './src/iwa.js';
 import { readTables, readLegacyTables, tableById, formatCell } from './src/tables.js';
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
 import { makePptx } from './src/pptx.js';
+import { makeNudge } from './src/nudge.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 
-const VERSION = '1.3.1';
+const VERSION = '1.3.2';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -80,6 +81,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+const nudge = makeNudge({ app: 'Docpeek', storeId: '9MWX5B6B0XPM', key: 'docpeek', lang: LANG, where });
 const t = (k, vars) => { let s = (T[LANG][k] ?? T.en[k] ?? k); if (vars) for (const [a, b] of Object.entries(vars)) s = s.replace(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
@@ -109,12 +111,12 @@ async function saveFile(bytes, name, mime, ext) {
     try {
       const fh = await window.showSaveFilePicker({ suggestedName: name, types: [{ description: ext.toUpperCase(), accept: { [mime]: ['.' + ext] } }] });
       const w = await fh.createWritable(); await w.write(blob); await w.close();
-      toast(t('saved', { f: fh.name })); return;
+      toast(t('saved', { f: fh.name })); setTimeout(() => nudge.success(), 3300); return;
     } catch (e) { if (e && e.name === 'AbortError') return; }
   }
   const a = h('a', { href: URL.createObjectURL(blob), download: name }); document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-  toast(t('saved', { f: name }));
+  toast(t('saved', { f: name })); setTimeout(() => nudge.success(), 3300);
 }
 
 // ---------- state ----------
@@ -392,7 +394,7 @@ function showPro(after) {
   back.querySelector('.btn.primary, .btn')?.focus();
 }
 function updateProMark() { const el = $('proMark'); if (el) el.hidden = !(proLive() && hasPro()); }
-initPro().then(() => { updateProMark(); if (state.doc && !window.DOCPEEK_PREVIEW) buildExportMenu(); });
+initPro().then(() => { updateProMark(); if (state.doc && !window.DOCPEEK_PREVIEW) buildExportMenu(); }).catch(() => {}).finally(() => { if (!window.DOCPEEK_PREVIEW) nudge.webNote(); });
 window.__docpeekPro = proTest;
 
 // ---------- events ----------
