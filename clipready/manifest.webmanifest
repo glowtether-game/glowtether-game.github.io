@@ -48,5 +48,19 @@
  ],
  "launch_handler": {
   "client_mode": "focus-existing"
- }
+ },
+ "screenshots": [
+  {
+   "src": "screenshots/1.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/2.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  }
+ ]
 }
