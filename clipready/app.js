@@ -2,7 +2,7 @@ import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout
 import { makePro } from './vendor/pro.js';
 import { inspect, remux } from './src/remux.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
@@ -96,14 +96,27 @@ function encodeMp3(channels, sampleRate, kbps, tags) {
 }
 async function toMp3(it, kbps) {
   const ctx = new OfflineAudioContext(1, 1, 44100); // decoded audio comes out at 44.1 kHz
-  let buf;
-  try { buf = await ctx.decodeAudioData(await it.file.arrayBuffer()); } catch (e) { throw new Error(it.info?.audio?.includes('alac') ? t('eAlac') : t('eAudio')); }
-  const chans = []; for (let c = 0; c < Math.min(2, buf.numberOfChannels); c++) chans.push(buf.getChannelData(c).slice());
+  let buf = null, chans = [], rate = 44100;
+  try { buf = await ctx.decodeAudioData(await it.file.arrayBuffer()); } catch (e) {
+    if (!it.info?.audio?.includes('alac')) throw new Error(t('eAudio'));
+  }
+  if (buf) { for (let c = 0; c < Math.min(2, buf.numberOfChannels); c++) chans.push(buf.getChannelData(c).slice()); rate = buf.sampleRate; }
+  else { // Apple Lossless: browsers on Windows can't decode it, so use our own decoder
+    const { decodeAlac } = await import('./src/alac.js');
+    let r; try { r = await decodeAlac(it.file, it.info); } catch (e) { throw new Error(t('eAudio')); }
+    chans = r.channels.slice(0, 2); rate = r.sampleRate;
+    if (![8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000].includes(rate)) { // resample to 44.1 kHz for MP3
+      const n = Math.ceil(chans[0].length * 44100 / rate), oc = new OfflineAudioContext(chans.length, n, 44100);
+      const ab = oc.createBuffer(chans.length, chans[0].length, rate); chans.forEach((c, i) => ab.copyToChannel(c, i));
+      const s = oc.createBufferSource(); s.buffer = ab; s.connect(oc.destination); s.start();
+      const rb = await oc.startRendering(); chans = []; for (let c = 0; c < rb.numberOfChannels; c++) chans.push(rb.getChannelData(c).slice()); rate = 44100;
+    }
+  }
   if (chans.length === 2) { // a voice memo is often two identical channels: keep one
     let same = true; const A = chans[0], B = chans[1]; for (let i = 0; i < A.length; i += 97) if (Math.abs(A[i] - B[i]) > 1e-4) { same = false; break; }
     if (same) chans.pop();
   }
-  return encodeMp3(chans, buf.sampleRate, kbps, { title: baseName(it.path), year: it.date ? String(it.date.getFullYear()) : '' });
+  return encodeMp3(chans, rate, kbps, { title: baseName(it.path), year: it.date ? String(it.date.getFullYear()) : '' });
 }
 
 // ---------- saving ----------
