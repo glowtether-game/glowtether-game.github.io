@@ -27,8 +27,8 @@ function bar(text, btnText, href, closeText, onClose, onGo) {
   return el;
 }
 
-/** opts: { app, storeId, key, lang, where: () => 'store'|'web' } */
-export function makeNudge({ app, storeId, key, lang, where }) {
+/** opts: { app, storeId, key, lang, where: () => 'store'|'web', listed: false while the Store page is not public yet } */
+export function makeNudge({ app, storeId, key, lang, where, listed = true }) {
   const t = (k) => (TXT[lang] || TXT.en)[k].replaceAll('{app}', app);
   const kRate = key + '-rated', kWeb = key + '-webnote', kRuns = key + '-runs';
   return {
@@ -41,7 +41,7 @@ export function makeNudge({ app, storeId, key, lang, where }) {
     },
     /** call once at start-up, after the Store check has finished */
     webNote() {
-      if (where() === 'store' || store(kWeb)) return;
+      if (!listed || where() === 'store' || store(kWeb)) return;
       if (!/Windows/i.test(navigator.userAgent)) return;
       setTimeout(() => bar(t('web'), t('webBtn'), `https://apps.microsoft.com/detail/${storeId}`, t('close'), () => store(kWeb, '1'), () => store(kWeb, '1')), 2500);
     },

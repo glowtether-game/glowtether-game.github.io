@@ -36,7 +36,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where() });
+const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where(), listed: false }); // set listed: true once the Store page is public
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
