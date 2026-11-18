@@ -1,0 +1,32 @@
+{
+"de": {
+ "description": "Paperlock fügt PDF-Dateien ein Passwort hinzu oder entfernt eines, das Sie kennen – direkt auf Ihrem PC.\n\nNichts wird hochgeladen. Verträge, Gehaltsabrechnungen, Kontoauszüge und medizinische Unterlagen verlassen Ihren Computer nie, anders als bei Online-PDF-Seiten.\n\nPasswörter nutzen AES-256-Verschlüsselung, so stark wie bei Adobe Acrobat. Die PDF öffnet sich mit dem Passwort in jedem PDF-Reader.\n\nKostenlos: eine PDF auf einmal sperren oder entsperren.\nPaperlock Pro (einmaliger Kauf): viele PDFs auf einmal sperren oder entsperren, jeder Datei ein eigenes Passwort geben (aus einer CSV-Liste oder von Paperlock erstellt und als Liste gespeichert) und Drucken, Kopieren oder Bearbeiten sperren.\n\nEntfernen Sie Passwörter nur von PDFs, die Sie öffnen dürfen. Sie brauchen das aktuelle Passwort.",
+ "short": "PDF-Passwörter auf Ihrem PC hinzufügen oder entfernen (AES-256). Nichts wird hochgeladen.",
+ "features": ["PDFs mit Passwort schützen (AES-256)", "Ein bekanntes Passwort entfernen", "Nichts wird hochgeladen; funktioniert offline", "Pro: viele PDFs auf einmal sperren oder entsperren", "Pro: für jede Datei ein anderes Passwort aus einer CSV-Liste", "Pro: Passwörter erstellen und die Liste für Excel speichern", "Pro: Drucken, Kopieren oder Bearbeiten sperren"],
+ "keywords": ["PDF Passwort", "PDF schützen", "PDF verschlüsseln", "PDF Passwort entfernen", "PDF sperren", "PDF mit Passwort schützen", "PDF Sicherheit"]
+},
+"fr": {
+ "description": "Paperlock ajoute un mot de passe aux fichiers PDF, ou retire celui que vous connaissez, directement sur votre PC.\n\nRien n’est envoyé en ligne. Contrats, fiches de paie, relevés et documents médicaux ne quittent jamais votre ordinateur, contrairement aux sites PDF en ligne.\n\nLes mots de passe utilisent le chiffrement AES-256, aussi robuste qu’Adobe Acrobat : le PDF s’ouvre avec le mot de passe dans n’importe quel lecteur PDF.\n\nGratuit : verrouillez ou déverrouillez un PDF à la fois.\nPaperlock Pro (achat unique) : verrouillez ou déverrouillez plusieurs PDF à la fois, donnez à chaque fichier son propre mot de passe (depuis une liste CSV, ou créé par Paperlock avec la liste enregistrée) et bloquez l’impression, la copie ou la modification.\n\nNe retirez le mot de passe que des PDF que vous avez le droit d’ouvrir. Il faut le mot de passe actuel.",
+ "short": "Ajoutez ou retirez le mot de passe des PDF sur votre PC (AES-256). Rien n’est envoyé en ligne.",
+ "features": ["Protéger des PDF par mot de passe (AES-256)", "Retirer un mot de passe connu", "Rien n’est envoyé ; fonctionne hors connexion", "Pro : verrouiller ou déverrouiller plusieurs PDF à la fois", "Pro : un mot de passe différent par fichier, depuis une liste CSV", "Pro : créer les mots de passe et enregistrer la liste pour Excel", "Pro : bloquer l’impression, la copie ou la modification"],
+ "keywords": ["mot de passe PDF", "protéger PDF", "chiffrer PDF", "supprimer mot de passe PDF", "verrouiller PDF", "sécuriser PDF", "déverrouiller PDF"]
+},
+"es": {
+ "description": "Paperlock pone contraseña a archivos PDF, o quita una que conoces, directamente en tu PC.\n\nNo se sube nada. Contratos, nóminas, extractos y documentos médicos nunca salen de tu ordenador, a diferencia de las webs de PDF en línea.\n\nLas contraseñas usan cifrado AES-256, tan robusto como Adobe Acrobat, así que el PDF se abre con la contraseña en cualquier lector de PDF.\n\nGratis: bloquea o desbloquea un PDF a la vez.\nPaperlock Pro (compra única): bloquea o desbloquea muchos PDF a la vez, da a cada archivo su propia contraseña (de una lista CSV, o creada por Paperlock con la lista guardada) y bloquea imprimir, copiar o editar.\n\nQuita contraseñas solo de los PDF que tienes permiso para abrir. Necesitas la contraseña actual.",
+ "short": "Pon o quita contraseñas a PDF en tu PC (AES-256). No se sube nada.",
+ "features": ["Proteger PDF con contraseña (AES-256)", "Quitar una contraseña que conoces", "No se sube nada; funciona sin conexión", "Pro: bloquear o desbloquear muchos PDF a la vez", "Pro: una contraseña distinta por archivo, desde una lista CSV", "Pro: crear contraseñas y guardar la lista para Excel", "Pro: bloquear imprimir, copiar o editar"],
+ "keywords": ["contraseña PDF", "proteger PDF", "cifrar PDF", "quitar contraseña PDF", "bloquear PDF", "PDF con contraseña", "seguridad PDF"]
+},
+"pt": {
+ "description": "O Paperlock adiciona senha a arquivos PDF, ou remove uma que você conhece, direto no seu PC.\n\nNada é enviado. Contratos, holerites, extratos e documentos médicos nunca saem do seu computador, ao contrário dos sites de PDF online.\n\nAs senhas usam criptografia AES-256, tão forte quanto a do Adobe Acrobat, então o PDF abre com a senha em qualquer leitor de PDF.\n\nGrátis: bloqueie ou desbloqueie um PDF por vez.\nPaperlock Pro (compra única): bloqueie ou desbloqueie vários PDFs de uma vez, dê a cada arquivo sua própria senha (de uma lista CSV, ou criada pelo Paperlock com a lista salva) e bloqueie impressão, cópia ou edição.\n\nRemova senhas apenas de PDFs que você tem permissão para abrir. É preciso a senha atual.",
+ "short": "Adicione ou remova senhas de PDF no seu PC (AES-256). Nada é enviado.",
+ "features": ["Proteger PDFs com senha (AES-256)", "Remover uma senha que você conhece", "Nada é enviado; funciona offline", "Pro: bloquear ou desbloquear vários PDFs de uma vez", "Pro: uma senha diferente por arquivo, a partir de uma lista CSV", "Pro: criar senhas e salvar a lista para o Excel", "Pro: bloquear impressão, cópia ou edição"],
+ "keywords": ["senha PDF", "proteger PDF", "criptografar PDF", "remover senha PDF", "bloquear PDF", "PDF com senha", "segurança PDF"]
+},
+"ko": {
+ "description": "Paperlock은 PC에서 바로 PDF 파일에 암호를 걸거나, 알고 있는 암호를 풉니다.\n\n아무것도 업로드하지 않습니다. 온라인 PDF 사이트와 달리 계약서, 급여 명세서, 거래 명세서, 진료 서류가 컴퓨터 밖으로 나가지 않습니다.\n\n암호는 Adobe Acrobat과 같은 수준의 AES-256 암호화를 사용하므로, 어떤 PDF 뷰어에서도 암호로 열립니다.\n\n무료: 한 번에 PDF 1개를 잠그거나 풉니다.\nPaperlock Pro(1회 구매): 여러 PDF를 한 번에 잠그거나 풀고, 파일마다 다른 암호(CSV 목록에서 또는 Paperlock이 만들어 목록으로 저장)를 지정하고, 인쇄·복사·편집을 막을 수 있습니다.\n\n열람 권한이 있는 PDF에서만 암호를 푸세요. 현재 암호가 필요합니다.",
+ "short": "PC에서 PDF 암호 걸기·풀기(AES-256). 업로드 없음.",
+ "features": ["PDF에 암호 걸기(AES-256)", "알고 있는 암호 풀기", "업로드 없음, 오프라인 작동", "Pro: 여러 PDF를 한 번에 잠그기·풀기", "Pro: CSV 목록으로 파일마다 다른 암호", "Pro: 암호를 만들어 Excel용 목록 저장", "Pro: 인쇄·복사·편집 금지"],
+ "keywords": ["PDF 암호", "PDF 암호 설정", "PDF 암호화", "PDF 암호 해제", "PDF 잠금", "PDF 비밀번호", "PDF 보안"]
+}
+}

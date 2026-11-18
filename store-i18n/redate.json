@@ -1,0 +1,117 @@
+{
+ "de": {
+  "description": "Google Takeout verteilt Ihre Fotos auf viele ZIP-Dateien und legt die Datumsangaben in separate .json-Dateien. Windows und andere Apps zeigen deshalb das Exportdatum statt des Aufnahmetags. Redate liest die ZIP-Dateien (oder den entpackten Ordner) auf Ihrem PC, ordnet jedem Foto und Video seine Datumsdatei zu und speichert sie mit dem Aufnahmedatum.\n\n• Verarbeitet alle Takeout-ZIP-Dateien auf einmal, auch von Takeout gekürzte Namen, (1)-Duplikate und -edited-Kopien\n• Schreibt das Datum (und auf Wunsch den Standort) in JPEG-Fotos\n• Nutzt das Datum im Dateinamen, wenn es keine Datumsdatei gibt\n• Das Datum bleibt erhalten, wenn Sie das Ergebnis mit „Alle extrahieren“ entpacken\n\nKostenlos: stellt das Datum der ersten 100 Dateien wieder her. Redate Pro (einmaliger Kauf): ohne Begrenzung, Ordner Jahr/Monat und Erkennung von Duplikaten.\n\nNichts wird hochgeladen; kein Konto nötig, funktioniert offline.\n\nGoogle Fotos ist eine Marke von Google LLC. Redate steht in keiner Verbindung zu Google.",
+  "short": "Bringt das echte Aufnahmedatum in Ihren Google Fotos-Export zurück. Kein Upload.",
+  "features": [
+   "Fotodatum aus den JSON-Dateien von Google Takeout wiederherstellen",
+   "Gekürzte Namen, (1)-Duplikate und -edited-Kopien",
+   "Mehrere Takeout-ZIP-Dateien auf einmal",
+   "Schreibt das Datum in JPEG-EXIF",
+   "Optional Standort für JPEG-Fotos",
+   "Datum aus dem Dateinamen als Ersatz",
+   "Ordner Jahr/Monat (Pro)",
+   "Erkennung von Duplikaten (Pro)"
+  ],
+  "keywords": [
+   "Google Fotos herunterladen",
+   "Google Takeout Fotos",
+   "Google Fotos Datum falsch",
+   "Takeout JSON Datum",
+   "Fotodatum korrigieren",
+   "Google Fotos exportieren",
+   "Aufnahmedatum"
+  ]
+ },
+ "fr": {
+  "description": "Google Takeout répartit vos photos dans de nombreux zip et place les dates dans des fichiers .json séparés : Windows et les autres applications affichent alors la date d’export au lieu du jour de la prise de vue. Redate lit les zip (ou le dossier décompressé) sur votre PC, associe chaque photo et vidéo à son fichier de date et les enregistre avec leur date de prise de vue.\n\n• Traite tous les zip Takeout à la fois, y compris les noms raccourcis par Takeout, les doublons (1) et les copies -edited\n• Écrit la date (et, si vous le voulez, la localisation) dans les photos JPEG\n• Utilise la date du nom de fichier quand il n’y a pas de fichier de date\n• Les dates sont conservées quand vous décompressez le résultat avec « Extraire tout »\n\nGratuit : restaure la date des 100 premiers fichiers. Redate Pro (achat unique) : sans limite, dossiers Année/Mois et détection des doublons.\n\nRien n’est envoyé en ligne ; aucun compte, fonctionne hors connexion.\n\nGoogle Photos est une marque de Google LLC. Redate n’est pas affilié à Google.",
+  "short": "Remet les vraies dates sur votre export Google Photos. Aucun envoi en ligne.",
+  "features": [
+   "Restaure la date des photos depuis les fichiers JSON de Google Takeout",
+   "Noms raccourcis, doublons (1) et copies -edited",
+   "Plusieurs zip Takeout à la fois",
+   "Écrit la date dans les EXIF des JPEG",
+   "Localisation en option pour les JPEG",
+   "Date du nom de fichier en secours",
+   "Dossiers Année/Mois (Pro)",
+   "Détection des doublons (Pro)"
+  ],
+  "keywords": [
+   "télécharger Google Photos",
+   "Google Takeout photos",
+   "date Google Photos",
+   "Takeout JSON",
+   "corriger date photo",
+   "exporter Google Photos",
+   "date prise de vue"
+  ]
+ },
+ "es": {
+  "description": "Google Takeout reparte tus fotos en muchos zip y lleva las fechas a archivos .json aparte, así que Windows y otras apps muestran la fecha de exportación en lugar del día en que se tomó la foto. Redate lee los zip (o la carpeta descomprimida) en tu PC, empareja cada foto y vídeo con su archivo de fecha y los guarda con la fecha en que se tomaron.\n\n• Funciona con todos los zip de Takeout a la vez, incluidos nombres que Takeout acortó, duplicados (1) y copias -edited\n• Escribe la fecha (y, si quieres, la ubicación) en las fotos JPEG\n• Usa la fecha del nombre del archivo cuando no hay archivo de fecha\n• Las fechas se conservan al descomprimir el resultado con «Extraer todo»\n\nGratis: restaura la fecha de los primeros 100 archivos. Redate Pro (compra única): sin límite, carpetas Año/Mes y detección de duplicados.\n\nNo se sube nada; no hace falta cuenta y funciona sin conexión.\n\nGoogle Fotos es una marca de Google LLC. Redate no está afiliado a Google.",
+  "short": "Devuelve las fechas reales a tu exportación de Google Fotos. Sin subir nada.",
+  "features": [
+   "Restaura la fecha de las fotos desde los JSON de Google Takeout",
+   "Nombres acortados, duplicados (1) y copias -edited",
+   "Varios zip de Takeout a la vez",
+   "Escribe la fecha en el EXIF de los JPEG",
+   "Ubicación opcional para fotos JPEG",
+   "Fecha del nombre del archivo como respaldo",
+   "Carpetas Año/Mes (Pro)",
+   "Detección de duplicados (Pro)"
+  ],
+  "keywords": [
+   "descargar Google Fotos",
+   "Google Takeout fotos",
+   "fecha Google Fotos",
+   "Takeout JSON fecha",
+   "corregir fecha fotos",
+   "exportar Google Fotos",
+   "fecha de captura"
+  ]
+ },
+ "pt": {
+  "description": "O Google Takeout divide suas fotos em vários zips e coloca as datas em arquivos .json separados, então o Windows e outros apps mostram a data da exportação em vez do dia em que a foto foi tirada. O Redate lê os zips (ou a pasta extraída) no seu PC, associa cada foto e vídeo ao seu arquivo de data e os salva com a data em que foram tirados.\n\n• Funciona com todos os zips do Takeout de uma vez, incluindo nomes que o Takeout cortou, duplicatas (1) e cópias -edited\n• Grava a data (e, se quiser, a localização) nas fotos JPEG\n• Usa a data do nome do arquivo quando não há arquivo de data\n• As datas são mantidas ao extrair o resultado com \"Extrair Tudo\"\n\nGrátis: restaura a data dos primeiros 100 arquivos. Redate Pro (compra única): sem limite, pastas Ano/Mês e detecção de duplicatas.\n\nNada é enviado; não precisa de conta e funciona offline.\n\nGoogle Fotos é uma marca da Google LLC. O Redate não é afiliado ao Google.",
+  "short": "Devolve as datas reais à sua exportação do Google Fotos. Sem envio.",
+  "features": [
+   "Restaura a data das fotos a partir dos JSON do Google Takeout",
+   "Nomes cortados, duplicatas (1) e cópias -edited",
+   "Vários zips do Takeout de uma vez",
+   "Grava a data no EXIF dos JPEG",
+   "Localização opcional para fotos JPEG",
+   "Data do nome do arquivo como alternativa",
+   "Pastas Ano/Mês (Pro)",
+   "Detecção de duplicatas (Pro)"
+  ],
+  "keywords": [
+   "baixar Google Fotos",
+   "Google Takeout fotos",
+   "data Google Fotos",
+   "Takeout JSON data",
+   "corrigir data foto",
+   "exportar Google Fotos",
+   "data da foto"
+  ]
+ },
+ "ko": {
+  "description": "Google Takeout은 사진을 여러 zip으로 나누고 날짜를 별도의 .json 파일에 넣기 때문에, Windows와 다른 앱에서는 촬영한 날 대신 내보낸 날짜가 표시됩니다. Redate는 PC에서 zip(또는 압축을 푼 폴더)을 읽고, 모든 사진과 동영상을 날짜 파일과 맞춘 뒤 촬영 날짜로 저장합니다.\n\n• Takeout zip을 한 번에 모두 처리합니다. Takeout이 잘라 낸 이름, (1) 중복, -edited 사본도 지원합니다\n• JPEG 사진에 날짜(원하면 위치도)를 기록합니다\n• 날짜 파일이 없으면 파일 이름의 날짜를 사용합니다\n• '압축 풀기'로 결과를 풀어도 날짜가 유지됩니다\n\n무료: 처음 100개 파일의 날짜를 복원합니다. Redate Pro(1회 구매): 제한 없음, 연도/월 폴더, 중복 감지.\n\n업로드하지 않으며 계정이 필요 없고 오프라인에서도 작동합니다.\n\nGoogle 포토는 Google LLC의 상표입니다. Redate는 Google과 관련이 없습니다.",
+  "short": "Google 포토에서 내보낸 사진에 실제 촬영 날짜를 되돌립니다. 업로드 없음.",
+  "features": [
+   "Google Takeout JSON 파일로 사진 날짜 복원",
+   "잘린 이름, (1) 중복, -edited 사본 지원",
+   "여러 Takeout zip을 한 번에",
+   "JPEG EXIF에 날짜 기록",
+   "JPEG 사진 위치 정보(선택)",
+   "파일 이름의 날짜로 대체",
+   "연도/월 폴더(Pro)",
+   "중복 감지(Pro)"
+  ],
+  "keywords": [
+   "구글 포토 다운로드",
+   "구글 포토 일괄 다운로드",
+   "구글 테이크아웃 사진",
+   "사진 날짜 수정",
+   "Takeout JSON 날짜",
+   "구글 포토 내보내기",
+   "촬영 날짜"
+  ]
+ }
+}
