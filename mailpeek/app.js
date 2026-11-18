@@ -3,8 +3,9 @@ import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { LANG, makeT, $, el, safeName, saveTo, csvBlob, showPro, withPro, dropZone } from './vendor/appkit.js';
 import { indexMbox, rawMessage, summary, parseMessage, nameOf } from './src/mbox.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const STORE_ID = '9NLGX2T41Q8Z';
 const PAGE = 300;
 const pro = makePro({ sku: 'mailpeek_pro', storeId: STORE_ID, key: 'mailpeek-pro' });
@@ -35,6 +36,7 @@ const T = withPro({
     proTitle: 'Mailpeek Pro', proBody: 'すべてのメールの本文を検索できます。たくさんのメールをまとめて保存できます：.eml ファイル、Excel で開ける CSV の一覧、添付ファイルを一度に。',
   },
 }, 'Mailpeek');
+Object.assign(T, I18N); withPro(T, 'Mailpeek');
 const t = makeT(T);
 const nudge = makeNudge({ app: 'Mailpeek', storeId: STORE_ID, key: 'mailpeek', lang: LANG, where: () => pro.where(), listed: false });
 $('ver').textContent = 'v' + VERSION;

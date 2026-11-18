@@ -3,8 +3,9 @@ import { ZipOut, pickOutputFolder, filesFromDrop, filesFromInput, sha256, exifDa
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.0.2';
+const VERSION = '1.1.0';
 const FREE_LIMIT = 100;
 const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 
@@ -34,7 +35,8 @@ const T = {
     noMedia: '写真や動画が見つかりませんでした。Takeout の zip ファイルか、展開したフォルダーを選んでください。', err: '問題が起きました：{m}', privacy: 'プライバシー', how: 'Google からの取り出し方：takeout.google.com › Google フォト を選ぶ › エクスポート',
   },
 };
-const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+Object.assign(T, I18N);
+const LANG = ((l) => ['ja', 'de', 'fr', 'es', 'pt', 'ko'].includes(l) ? l : 'en')(((navigator.languages && navigator.languages[0]) || navigator.language || 'en').toLowerCase().slice(0, 2));
 const nudge = makeNudge({ app: 'Redate', storeId: '9PC1BKKH8RG4', key: 'redate', lang: LANG, where: () => pro.where(), listed: true });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;

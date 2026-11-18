@@ -5,8 +5,9 @@ import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pag
 import { makePptx } from './src/pptx.js';
 import { makeNudge } from './src/nudge.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.3.2';
+const VERSION = '1.4.0';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -80,7 +81,8 @@ const T = {
     tooBig: '大きなファイルのため、各表の最初の {n} 行を表示しています。Excel で保存するとすべて入ります。',
   },
 };
-const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+Object.assign(T, I18N);
+const LANG = ((l) => ['ja', 'de', 'fr', 'es', 'pt', 'ko'].includes(l) ? l : 'en')(((navigator.languages && navigator.languages[0]) || navigator.language || 'en').toLowerCase().slice(0, 2));
 const nudge = makeNudge({ app: 'Docpeek', storeId: '9MWX5B6B0XPM', key: 'docpeek', lang: LANG, where });
 const t = (k, vars) => { let s = (T[LANG][k] ?? T.en[k] ?? k); if (vars) for (const [a, b] of Object.entries(vars)) s = s.replace(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;

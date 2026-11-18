@@ -8,6 +8,11 @@ const TXT = {
         web: 'On Windows? {app} is also a free app in the Microsoft Store.', webBtn: 'Get the app', close: 'Close' },
   ja: { rate: '{app} がお役に立ちましたか？ Microsoft Store で評価していただけると、ほかの人が見つけやすくなります。', rateBtn: '評価する', later: 'あとで',
         web: 'Windows なら、{app} は Microsoft Store の無料アプリとしても使えます。', webBtn: 'アプリを入手', close: '閉じる' },
+  de: {"rate": "Hat {app} geholfen? Eine Bewertung im Microsoft Store hilft anderen, die App zu finden.", "rateBtn": "{app} bewerten", "later": "Nicht jetzt", "web": "Windows? {app} gibt es auch als kostenlose App im Microsoft Store.", "webBtn": "App holen", "close": "Schließen"},
+  fr: {"rate": "{app} vous a été utile ? Une note dans le Microsoft Store aide d’autres personnes à le trouver.", "rateBtn": "Noter {app}", "later": "Plus tard", "web": "Sous Windows ? {app} existe aussi en application gratuite dans le Microsoft Store.", "webBtn": "Obtenir l’application", "close": "Fermer"},
+  es: {"rate": "¿Te sirvió {app}? Una valoración en Microsoft Store ayuda a que otros lo encuentren.", "rateBtn": "Valorar {app}", "later": "Ahora no", "web": "¿Usas Windows? {app} también es una app gratuita en Microsoft Store.", "webBtn": "Obtener la app", "close": "Cerrar"},
+  pt: {"rate": "O {app} ajudou? Uma avaliação na Microsoft Store ajuda outras pessoas a encontrá-lo.", "rateBtn": "Avaliar o {app}", "later": "Agora não", "web": "Usa Windows? O {app} também é um app gratuito na Microsoft Store.", "webBtn": "Obter o app", "close": "Fechar"},
+  ko: {"rate": "{app}이(가) 도움이 되었나요? Microsoft Store에 평가를 남겨 주시면 다른 사람들이 찾기 쉬워집니다.", "rateBtn": "{app} 평가하기", "later": "나중에", "web": "Windows를 쓰시나요? {app}은(는) Microsoft Store에서 무료 앱으로도 받을 수 있습니다.", "webBtn": "앱 받기", "close": "닫기"},
 };
 
 function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }

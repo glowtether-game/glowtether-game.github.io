@@ -2,8 +2,9 @@ import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { LANG, makeT, $, el, baseName, saveTo, csvBlob, readCsvFile, showPro, withPro, dropZone } from './vendor/appkit.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const FREE_LIMIT = 1;
 const STORE_ID = '9NLXQCMJPXMF';
 const pro = makePro({ sku: 'paperlock_pro', storeId: STORE_ID, key: 'paperlock-pro' });
@@ -40,6 +41,7 @@ const T = withPro({
     proTitle: 'Paperlock Pro', proBody: 'たくさんの PDF にまとめてパスワードをかける・外す、ファイルごとに別のパスワード（一覧から読み込む・自動で作る）、印刷・コピー・編集の禁止ができます。',
   },
 }, 'Paperlock');
+Object.assign(T, I18N); withPro(T, 'Paperlock');
 const t = makeT(T);
 const nudge = makeNudge({ app: 'Paperlock', storeId: STORE_ID, key: 'paperlock', lang: LANG, where: () => pro.where(), listed: false });
 $('ver').textContent = 'v' + VERSION;

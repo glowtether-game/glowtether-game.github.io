@@ -2,8 +2,9 @@ import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { inspect, remux, audioOnly } from './src/remux.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.1.1';
+const VERSION = '1.2.0';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
@@ -35,7 +36,8 @@ const T = {
     proTitle: 'Clipready Pro', proBody: '件数の制限なしで動画とボイスメモを一度に変換でき、動画から位置情報を消せます。', proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。', proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら', proWeb: 'Clipready Pro は Microsoft Store 版で販売しています。Store から Clipready を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proLater: 'あとで', proThanks: 'ありがとうございます。Clipready Pro が使えるようになりました。', proFail: '購入は完了しませんでした。料金はかかっていません。', proNone: 'この Microsoft アカウントでは Pro の購入が見つかりませんでした。',
   },
 };
-const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+Object.assign(T, I18N);
+const LANG = ((l) => ['ja', 'de', 'fr', 'es', 'pt', 'ko'].includes(l) ? l : 'en')(((navigator.languages && navigator.languages[0]) || navigator.language || 'en').toLowerCase().slice(0, 2));
 const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where(), listed: true });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;

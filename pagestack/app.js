@@ -3,8 +3,9 @@ import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { LANG, makeT, $, el, baseName, safeName, saveTo, showPro, withPro, dropZone } from './vendor/appkit.js';
 import { PDFDocument, degrees } from './vendor/pdf-lib.esm.min.js';
+import I18N from './i18n.js';
 
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const FREE_MERGE = 3; // files per merge in the free version
 const STORE_ID = '9NHMM322PGJ5';
 const pro = makePro({ sku: 'pagestack_pro', storeId: STORE_ID, key: 'pagestack-pro' });
@@ -41,6 +42,7 @@ const T = withPro({
     proTitle: 'Pagestack Pro', proBody: '数の制限なしで PDF をつなぐ、保存の前にページを並べ替える（移動・回転・削除）、たくさんの PDF をまとめて分ける、Nページごとに分けることができます。',
   },
 }, 'Pagestack');
+Object.assign(T, I18N); withPro(T, 'Pagestack');
 const t = makeT(T);
 const nudge = makeNudge({ app: 'Pagestack', storeId: STORE_ID, key: 'pagestack', lang: LANG, where: () => pro.where(), listed: false });
 $('ver').textContent = 'v' + VERSION;

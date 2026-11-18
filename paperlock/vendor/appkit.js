@@ -1,6 +1,6 @@
 // Small shared helpers for the PDF / mail apps: text, elements, saving, the Pro dialog.
 
-export const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
+export const LANG = ((l) => ['ja', 'de', 'fr', 'es', 'pt', 'ko'].includes(l) ? l : 'en')(((navigator.languages && navigator.languages[0]) || navigator.language || 'en').toLowerCase().slice(0, 2));
 
 export function makeT(T) {
   const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
@@ -88,9 +88,14 @@ export function showPro(pro, t, onDone) {
 export const PRO_TEXT = {
   en: { proBuy: 'Get Pro', proBuyP: 'Get Pro for {p}', proRestore: 'I already bought Pro', proWeb: '{app} Pro is sold in the Microsoft Store app. Install {app} from the Store, then get Pro there.', proOpenStore: 'Open in Microsoft Store', proLater: 'Not now', proFail: 'The purchase did not go through. Nothing was charged.', proNone: 'No Pro purchase was found for this Microsoft account.', proOnce: 'One payment, no subscription. It stays with your Microsoft account.' },
   ja: { proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら', proWeb: '{app} Pro は Microsoft Store 版で販売しています。Store から {app} を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proLater: 'あとで', proFail: '購入は完了しませんでした。料金はかかっていません。', proNone: 'この Microsoft アカウントでは Pro の購入が見つかりませんでした。', proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。' },
+  de: {"proBuy": "Pro holen", "proBuyP": "Pro für {p} holen", "proRestore": "Ich habe Pro schon gekauft", "proWeb": "{app} Pro gibt es in der Microsoft Store-App. Installieren Sie {app} aus dem Store und holen Sie Pro dort.", "proOpenStore": "Im Microsoft Store öffnen", "proLater": "Nicht jetzt", "proFail": "Der Kauf wurde nicht abgeschlossen. Es wurde nichts berechnet.", "proNone": "Für dieses Microsoft-Konto wurde kein Pro-Kauf gefunden.", "proOnce": "Einmalige Zahlung, kein Abo. Bleibt mit Ihrem Microsoft-Konto verbunden."},
+  fr: {"proBuy": "Passer à Pro", "proBuyP": "Passer à Pro pour {p}", "proRestore": "J’ai déjà acheté Pro", "proWeb": "{app} Pro est vendu dans l’application du Microsoft Store. Installez {app} depuis le Store, puis passez à Pro dans l’application.", "proOpenStore": "Ouvrir dans le Microsoft Store", "proLater": "Plus tard", "proFail": "L’achat n’a pas abouti. Rien n’a été facturé.", "proNone": "Aucun achat Pro n’a été trouvé pour ce compte Microsoft.", "proOnce": "Un seul paiement, sans abonnement. Lié à votre compte Microsoft."},
+  es: {"proBuy": "Obtener Pro", "proBuyP": "Obtener Pro por {p}", "proRestore": "Ya compré Pro", "proWeb": "{app} Pro se vende en la app de Microsoft Store. Instala {app} desde la Store y obtén Pro allí.", "proOpenStore": "Abrir en Microsoft Store", "proLater": "Ahora no", "proFail": "La compra no se completó. No se cobró nada.", "proNone": "No se encontró ninguna compra de Pro para esta cuenta Microsoft.", "proOnce": "Un solo pago, sin suscripción. Queda en tu cuenta Microsoft."},
+  pt: {"proBuy": "Obter o Pro", "proBuyP": "Obter o Pro por {p}", "proRestore": "Já comprei o Pro", "proWeb": "O {app} Pro é vendido no app da Microsoft Store. Instale o {app} pela Store e obtenha o Pro lá.", "proOpenStore": "Abrir na Microsoft Store", "proLater": "Agora não", "proFail": "A compra não foi concluída. Nada foi cobrado.", "proNone": "Nenhuma compra do Pro foi encontrada para esta conta Microsoft.", "proOnce": "Um único pagamento, sem assinatura. Fica na sua conta Microsoft."},
+  ko: {"proBuy": "Pro 구매", "proBuyP": "{p}에 Pro 구매", "proRestore": "이미 Pro를 구매했습니다", "proWeb": "{app} Pro는 Microsoft Store 앱에서 판매합니다. Store에서 {app}을(를) 설치한 뒤 그 안에서 Pro를 구매하세요.", "proOpenStore": "Microsoft Store에서 열기", "proLater": "나중에", "proFail": "구매가 완료되지 않았습니다. 요금은 청구되지 않았습니다.", "proNone": "이 Microsoft 계정에서 Pro 구매 내역을 찾지 못했습니다.", "proOnce": "한 번만 결제하며 구독이 아닙니다. Microsoft 계정에 연결됩니다."},
 };
 export function withPro(T, app) {
-  for (const l of ['en', 'ja']) for (const [k, v] of Object.entries(PRO_TEXT[l])) T[l][k] ??= v.replaceAll('{app}', app);
+  for (const l of Object.keys(PRO_TEXT)) if (T[l]) for (const [k, v] of Object.entries(PRO_TEXT[l])) T[l][k] ??= v.replaceAll('{app}', app);
   return T;
 }
 
