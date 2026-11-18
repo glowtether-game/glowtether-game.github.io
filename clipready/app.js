@@ -3,7 +3,7 @@ import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { inspect, remux, audioOnly } from './src/remux.js';
 
-const VERSION = '1.1.0';
+const VERSION = '1.1.1';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
@@ -36,7 +36,7 @@ const T = {
   },
 };
 const LANG = (navigator.language || 'en').toLowerCase().startsWith('ja') ? 'ja' : 'en';
-const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where(), listed: false }); // set listed: true once the Store page is public
+const nudge = makeNudge({ app: 'Clipready', storeId: '9PPC4KF7HLQL', key: 'clipready', lang: LANG, where: () => pro.where(), listed: true });
 const t = (k, v) => { let s = T[LANG][k] ?? T.en[k] ?? k; if (v) for (const [a, b] of Object.entries(v)) s = s.replaceAll(`{${a}}`, b); return s; };
 document.documentElement.lang = LANG;
 for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
