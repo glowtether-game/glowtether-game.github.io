@@ -2,7 +2,7 @@
  "id": "./",
  "name": "Clipready",
  "short_name": "Clipready",
- "description": "Turn iPhone videos (MOV) into MP4 with no quality loss, in seconds, and voice memos (M4A) into MP3. Nothing is uploaded.",
+ "description": "Turn iPhone videos (MOV) into MP4 with no quality loss, in seconds, and voice memos (M4A) and the sound of videos into MP3. Nothing is uploaded.",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
@@ -39,6 +39,9 @@
    "accept": {
     "video/quicktime": [
      ".mov"
+    ],
+    "video/mp4": [
+     ".mp4"
     ],
     "audio/x-m4a": [
      ".m4a"

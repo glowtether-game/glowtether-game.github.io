@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagestack</title>
+<meta name="description" content="Merge and split PDF files on your PC. Nothing is uploaded. Pro: any number of files, arrange, rotate and delete pages, split every N pages.">
+<meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="stylesheet" href="styles.css">
+<style>
+.files{list-style:none;padding:0;margin:8px 0 12px;border:1px solid var(--line);border-radius:10px}
+.files li{display:flex;align-items:center;gap:8px;padding:7px 10px;border-top:1px solid var(--line);font-size:14px}
+.files li:first-child{border-top:0}
+.files li .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.files li .pg{color:var(--muted);white-space:nowrap}
+.files li.bad .pg{color:#c0392b}
+.mini{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:7px;padding:2px 8px;cursor:pointer;font:inherit;font-size:13px}
+.mini:disabled{opacity:.35;cursor:default}
+.pages{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin:10px 0 14px;max-height:520px;overflow:auto;padding:4px}
+.pg-card{border:1px solid var(--line);border-radius:10px;padding:6px;background:var(--paper);text-align:center}
+.pg-card canvas{max-width:100%;height:auto;box-shadow:0 1px 4px rgba(0,0,0,.2);background:#fff}
+.pg-card .cap{font-size:12px;color:var(--muted);margin:4px 0}
+.pg-card .tools{display:flex;justify-content:center;gap:4px}
+.split-opts label{display:block;margin:6px 0}
+.split-opts input[type=text],.split-opts input[type=number]{padding:6px 9px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--paper);color:var(--ink)}
+.split-opts input[type=number]{width:80px}
+</style>
+</head>
+<body>
+<header class="bar"><div class="brand"><img src="icons/icon-192.png" alt="" width="26" height="26"><span>Pagestack</span></div></header>
+<main id="main">
+  <p class="msg" id="msg" hidden></p>
+  <section id="start" class="empty">
+    <div class="drop" id="drop" tabindex="0">
+      <h1 data-i18n="drop">Drop PDF files here</h1>
+      <p class="sub" data-i18n="sub">Merge or split PDFs on this PC. Nothing is uploaded.</p>
+      <div class="row"><button class="btn primary big" id="fileBtn" data-i18n="chooseFiles">Choose PDFs</button><button class="btn big" id="dirBtn" data-i18n="chooseFolder">Choose a folder</button></div>
+    </div>
+    <p class="tag" data-i18n="tag">Contracts, statements and forms stay on your PC. No size limit, no waiting in line.</p>
+  </section>
+  <section id="busy" class="busy" hidden><div class="spin"></div><span id="busyText"></span><progress id="bar" max="1" value="0" hidden></progress></section>
+  <section id="work" class="card" hidden>
+    <div class="tabs" role="tablist"><button class="tab" role="tab" id="tabMerge" aria-selected="true" data-i18n="tabMerge">Merge</button><button class="tab" role="tab" id="tabSplit" aria-selected="false" data-i18n="tabSplit">Split</button></div>
+    <ul class="files" id="files"></ul>
+    <div class="row"><button class="btn" id="addBtn" data-i18n="add">Add PDFs</button></div>
+    <div id="mergePane">
+      <label><input type="checkbox" id="arrange"> <span data-i18n="arrange">Arrange pages (move, rotate, delete)</span> <span class="badge pro-only">Pro</span></label>
+      <div class="pages" id="pages" hidden></div>
+      <label><span data-i18n="outName">File name</span> <input type="text" id="mergeName" style="padding:6px 9px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--paper);color:var(--ink);min-width:0;width:260px;max-width:100%"></label>
+    </div>
+    <div id="splitPane" class="split-opts" hidden>
+      <label><input type="radio" name="how" value="each" checked> <span data-i18n="howEach">One PDF per page</span></label>
+      <label><input type="radio" name="how" value="ranges"> <span data-i18n="howRanges">Page ranges, one PDF each</span> <input type="text" id="ranges" placeholder="1-3, 5, 8-" size="16"></label>
+      <label><input type="radio" name="how" value="every"> <span data-i18n="howEvery">Every</span> <input type="number" id="everyN" min="1" value="2"> <span data-i18n="howEvery2">pages</span> <span class="badge pro-only">Pro</span></label>
+      <p class="note" data-i18n="rangesHelp">Ranges: "1-3" pages 1 to 3, "5" page 5, "8-" page 8 to the end. Separate with commas.</p>
+    </div>
+    <p class="note" id="freeNote" hidden></p>
+    <div class="row"><button class="btn primary big" id="startBtn" data-i18n="saveMerge">Merge and save</button></div>
+  </section>
+  <section id="finish" class="card" hidden>
+    <h2 data-i18n="done">Done</h2>
+    <p id="doneText"></p>
+    <p class="note warn" id="failText" hidden></p>
+    <p class="note" id="freeDone" hidden></p>
+    <div class="row"><button class="btn primary" id="freeBtn">Pro</button><button class="btn" id="backBtn" data-i18n="back">Back to these files</button><button class="btn" id="againBtn" data-i18n="again">Start over</button></div>
+  </section>
+</main>
+<input type="file" id="fileIn" accept=".pdf,application/pdf" multiple hidden>
+<input type="file" id="dirIn" webkitdirectory hidden>
+<footer class="foot"><a href="privacy.html" data-i18n="privacy">Privacy</a><span>·</span><span id="ver"></span><span>·</span><a href="vendor/LICENSE-pdflib.txt">pdf-lib (MIT)</a><span>·</span><a href="vendor/LICENSE-pdfjs.txt">PDF.js (Apache 2.0)</a></footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

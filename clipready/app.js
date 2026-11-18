@@ -1,37 +1,37 @@
 import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
-import { inspect, remux } from './src/remux.js';
+import { inspect, remux, audioOnly } from './src/remux.js';
 
-const VERSION = '1.0.2';
+const VERSION = '1.1.0';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 
 const T = {
   en: {
-    drop: 'Drop iPhone videos (MOV) or voice memos (M4A) here', sub: 'Converted on this PC. Nothing is uploaded.', chooseFiles: 'Choose files', chooseFolder: 'Choose a folder',
-    tag: 'MOV to MP4 with no quality loss, in seconds. Voice memos to MP3.', scanning: 'Reading… {n} files',
-    report: 'What we found', rMov: 'Videos (MOV → MP4, no quality loss)', rHevc: 'of them HEVC (stays HEVC)', rAudio: 'Voice memos and audio (→ MP3)', rSkip: 'Other files (left out)',
+    drop: 'Drop iPhone videos (MOV), MP4 videos or voice memos (M4A) here', sub: 'Converted on this PC. Nothing is uploaded.', chooseFiles: 'Choose files', chooseFolder: 'Choose a folder',
+    tag: 'MOV to MP4 with no quality loss, in seconds. Voice memos and the sound of videos to MP3.', scanning: 'Reading… {n} files',
+    report: 'What we found', rMov: 'Videos (MOV → MP4, no quality loss)', rHevc: 'of them HEVC (stays HEVC)', rAudio: 'Voice memos and audio (→ MP3)', rMp4: 'MP4 videos (sound → MP3)', rSkip: 'Other files (left out)',
     hevcNote: 'HEVC videos stay HEVC inside the MP4, so nothing is lost. Websites and most editors accept them. To play them in Windows, the "HEVC Video Extensions" may be needed.',
     spatialNote: 'Some videos have spatial audio. The normal stereo track is kept.',
-    optMp3: 'MP3 quality', kbps64: '64 kbps (speech, small)', kbps128: '128 kbps (standard)', kbps192: '192 kbps (music)', optDate: 'Start MP3 file names with the recording date', optGeo: 'Remove location from the videos',
+    optMp3: 'MP3 quality', kbps64: '64 kbps (speech, small)', kbps128: '128 kbps (standard)', kbps192: '192 kbps (music)', optDate: 'Start MP3 file names with the recording date', optGeo: 'Remove location from the videos', optSound: 'Save only the sound of the MOV videos, as MP3',
     freeNote: 'Free version: converts up to {n} files at a time. Pro converts any number at once.',
     start: 'Convert and save', working: 'Working… {i} of {n}: {name}', done: 'Done', doneText: 'Saved {n} file(s).', savedTo: 'They are in the folder you chose.', downloaded: 'They are in your Downloads folder.', keptDate: 'Videos keep the date they were recorded inside the file.',
     failed: '{n} file(s) could not be converted: {names}', again: 'Convert more', none: 'No MOV videos or voice memos were found.', err: 'Something went wrong: {m}', privacy: 'Privacy',
-    eFrag: 'this video format is not supported', eNoVideo: 'no video track', eAudio: 'this audio could not be read on this PC', eAlac: 'Apple Lossless (ALAC) recordings are not supported yet',
+    eFrag: 'this video format is not supported', eNoVideo: 'no video track', eAudio: 'this audio could not be read on this PC', eAlac: 'Apple Lossless (ALAC) recordings are not supported yet', eNoAudio: 'this video has no sound',
     proTitle: 'Clipready Pro', proBody: 'Convert any number of videos and voice memos at once, and remove location from videos.', proOnce: 'One payment, no subscription. It stays with your Microsoft account.', proBuy: 'Get Pro', proBuyP: 'Get Pro for {p}', proRestore: 'I already bought Pro', proWeb: 'Clipready Pro is sold in the Microsoft Store app. Install Clipready from the Store, then get Pro there.', proOpenStore: 'Open in Microsoft Store', proLater: 'Not now', proThanks: 'Thank you! Clipready Pro is ready.', proFail: 'The purchase did not go through. Nothing was charged.', proNone: 'No Pro purchase was found for this Microsoft account.',
   },
   ja: {
-    drop: 'iPhone の動画（MOV）やボイスメモ（M4A）をここにドラッグ', sub: 'この PC の中で変換します。アップロードはしません。', chooseFiles: 'ファイルを選ぶ', chooseFolder: 'フォルダーを選ぶ',
-    tag: 'MOV を MP4 に、画質そのまま数秒で。ボイスメモは MP3 に。', scanning: '読み込み中… {n} 件',
-    report: '見つかったもの', rMov: '動画（MOV → MP4、画質そのまま）', rHevc: 'うち HEVC（HEVC のまま）', rAudio: 'ボイスメモ・音声（→ MP3）', rSkip: 'そのほかのファイル（対象外）',
+    drop: 'iPhone の動画（MOV）・MP4 の動画・ボイスメモ（M4A）をここにドラッグ', sub: 'この PC の中で変換します。アップロードはしません。', chooseFiles: 'ファイルを選ぶ', chooseFolder: 'フォルダーを選ぶ',
+    tag: 'MOV を MP4 に、画質そのまま数秒で。ボイスメモや動画の音声は MP3 に。', scanning: '読み込み中… {n} 件',
+    report: '見つかったもの', rMov: '動画（MOV → MP4、画質そのまま）', rHevc: 'うち HEVC（HEVC のまま）', rAudio: 'ボイスメモ・音声（→ MP3）', rMp4: 'MP4 の動画（音声 → MP3）', rSkip: 'そのほかのファイル（対象外）',
     hevcNote: 'HEVC の動画は、MP4 の中でも HEVC のままなので劣化しません。Web サイトや多くの編集ソフトはそのまま受け付けます。Windows で再生するには「HEVC ビデオ拡張機能」が要ることがあります。',
     spatialNote: '空間オーディオ付きの動画があります。ふつうのステレオ音声を残します。',
-    optMp3: 'MP3 の音質', kbps64: '64 kbps（会話向け・小さい）', kbps128: '128 kbps（標準）', kbps192: '192 kbps（音楽向け）', optDate: 'MP3 のファイル名の先頭に録音日を付ける', optGeo: '動画から位置情報を消す',
+    optMp3: 'MP3 の音質', kbps64: '64 kbps（会話向け・小さい）', kbps128: '128 kbps（標準）', kbps192: '192 kbps（音楽向け）', optDate: 'MP3 のファイル名の先頭に録音日を付ける', optGeo: '動画から位置情報を消す', optSound: 'MOV の動画は、音声だけを MP3 で保存する',
     freeNote: '無料版では、一度に {n} 件まで変換します。Pro では件数の制限なしで一度に変換できます。',
     start: '変換して保存', working: '処理中… {n} 件中 {i} 件：{name}', done: '完了', doneText: '{n} 件を保存しました。', savedTo: '選んだフォルダーに入っています。', downloaded: 'ダウンロードフォルダーに入っています。', keptDate: '動画の中の撮影日はそのまま残ります。',
     failed: '変換できなかったファイル {n} 件：{names}', again: 'ほかのファイルも変換', none: 'MOV の動画やボイスメモが見つかりませんでした。', err: '問題が起きました：{m}', privacy: 'プライバシー',
-    eFrag: 'この形式の動画には対応していません', eNoVideo: '映像が入っていません', eAudio: 'この PC では読み取れない音声です', eAlac: 'Apple ロスレス（ALAC）の録音にはまだ対応していません',
+    eFrag: 'この形式の動画には対応していません', eNoVideo: '映像が入っていません', eAudio: 'この PC では読み取れない音声です', eAlac: 'Apple ロスレス（ALAC）の録音にはまだ対応していません', eNoAudio: 'この動画には音声が入っていません',
     proTitle: 'Clipready Pro', proBody: '件数の制限なしで動画とボイスメモを一度に変換でき、動画から位置情報を消せます。', proOnce: '一度の支払いだけで、月額ではありません。Microsoft アカウントにひもづきます。', proBuy: 'Pro にする', proBuyP: '{p} で Pro にする', proRestore: '購入済みの方はこちら', proWeb: 'Clipready Pro は Microsoft Store 版で販売しています。Store から Clipready を入れて、その中で Pro にしてください。', proOpenStore: 'Microsoft Store で開く', proLater: 'あとで', proThanks: 'ありがとうございます。Clipready Pro が使えるようになりました。', proFail: '購入は完了しませんでした。料金はかかっていません。', proNone: 'この Microsoft アカウントでは Pro の購入が見つかりませんでした。',
   },
 };
@@ -43,7 +43,7 @@ for (const el of document.querySelectorAll('[data-i18n]')) el.textContent = t(el
 const $ = (id) => document.getElementById(id);
 $('ver').textContent = 'v' + VERSION;
 
-const VIDEO = /\.(mov|qt)$/i, AUDIO = /\.(m4a|qta|aac|caf|wav|aif|aiff)$/i;
+const VIDEO = /\.(mov|qt)$/i, MP4 = /\.(mp4|m4v)$/i, AUDIO = /\.(m4a|qta|aac|caf|wav|aif|aiff)$/i;
 let items = [], skipped = 0;
 
 function show(id) { for (const s of ['start', 'busy', 'report', 'finish']) $(s).hidden = s !== id; }
@@ -58,11 +58,11 @@ async function scan(list) {
   for (const s of list) {
     const name = s.path.split('/').pop();
     if (name.startsWith('.')) continue;
-    const kind = VIDEO.test(name) ? 'video' : AUDIO.test(name) ? 'audio' : null;
+    const kind = VIDEO.test(name) ? 'video' : MP4.test(name) ? 'mp4' : AUDIO.test(name) ? 'audio' : null;
     if (!kind) { skipped++; continue; }
     if (++n % 10 === 0) busy(t('scanning', { n }));
     const it = { file: s.file, path: s.path, kind, info: null, date: null, err: null };
-    if (/\.(mov|qt|m4a|qta)$/i.test(name)) { try { it.info = await inspect(s.file); it.date = it.info.date; } catch (e) { if (kind === 'video') it.err = t('eFrag'); } }
+    if (/\.(mov|qt|m4a|qta|mp4|m4v)$/i.test(name)) { try { it.info = await inspect(s.file); it.date = it.info.date; if (kind === 'mp4' && !it.info.audio.length) it.err = t('eNoAudio'); } catch (e) { if (kind !== 'audio') it.err = t('eFrag'); } }
     if (!it.date && s.file.lastModified) it.date = new Date(s.file.lastModified);
     items.push(it);
   }
@@ -72,14 +72,14 @@ async function scan(list) {
 
 function renderReport() {
   show('report');
-  const v = items.filter((i) => i.kind === 'video'), a = items.filter((i) => i.kind === 'audio');
+  const v = items.filter((i) => i.kind === 'video'), a = items.filter((i) => i.kind === 'audio'), m = items.filter((i) => i.kind === 'mp4');
   const hevc = v.filter((i) => i.info?.hevc).length, spatial = v.some((i) => i.info?.spatial);
-  const rows = [[t('rMov'), v.length], [t('rHevc'), hevc], [t('rAudio'), a.length]];
+  const rows = [[t('rMov'), v.length], [t('rHevc'), hevc], [t('rMp4'), m.length], [t('rAudio'), a.length]].filter(([, n], i) => n || i === 0 || i === 3);
   if (skipped) rows.push([t('rSkip'), skipped]);
   $('stats').replaceChildren(...rows.map(([k, n]) => { const li = document.createElement('li'); const b = document.createElement('b'); b.textContent = n.toLocaleString(); const s = document.createElement('span'); s.textContent = k; li.append(b, s); return li; }));
   $('hevcNote').hidden = !hevc; $('hevcNote').textContent = t('hevcNote');
   $('spatialNote').hidden = !spatial; $('spatialNote').textContent = t('spatialNote');
-  $('audioOpts').hidden = !a.length; $('videoOpts').hidden = !v.length;
+  $('audioOpts').hidden = !(a.length || m.length || v.length); $('videoOpts').hidden = !v.length;
   $('freeNote').hidden = !(pro.live() && !pro.has() && items.length > FREE_LIMIT);
   $('freeNote').textContent = t('freeNote', { n: FREE_LIMIT });
   $('optGeoBadge').hidden = !pro.live() || pro.has();
@@ -99,7 +99,8 @@ function encodeMp3(channels, sampleRate, kbps, tags) {
 async function toMp3(it, kbps) {
   const ctx = new OfflineAudioContext(1, 1, 44100); // decoded audio comes out at 44.1 kHz
   let buf = null, chans = [], rate = 44100;
-  try { buf = await ctx.decodeAudioData(await it.file.arrayBuffer()); } catch (e) {
+  const src = it.kind === 'audio' ? it.file : await audioOnly(it.file, it.info);
+  try { buf = await ctx.decodeAudioData(await src.arrayBuffer()); } catch (e) {
     if (!it.info?.audio?.includes('alac')) throw new Error(t('eAudio'));
   }
   if (buf) { for (let c = 0; c < Math.min(2, buf.numberOfChannels); c++) chans.push(buf.getChannelData(c).slice()); rate = buf.sampleRate; }
@@ -134,7 +135,7 @@ async function saveTo(dir, name, blob, used) {
 }
 
 async function run() {
-  const o = { kbps: Number($('kbps').value), date: $('optDate').checked, geo: $('optGeo').checked };
+  const o = { kbps: Number($('kbps').value), date: $('optDate').checked, geo: $('optGeo').checked, sound: $('optSound').checked };
   if (o.geo && !pro.has()) { showPro(() => run()); return; }
   let dir = null; try { dir = await pickOutputFolder(); } catch (e) { return; }
   const todo = pro.has() ? items : items.slice(0, FREE_LIMIT);
@@ -146,7 +147,7 @@ async function run() {
       busy(t('working', { i: i + 1, n: todo.length, name })); $('bar').hidden = false; $('bar').value = i / todo.length;
       try {
         if (it.err) throw new Error(it.err);
-        if (it.kind === 'video') {
+        if (it.kind === 'video' && !o.sound) {
           const blob = await remux(it.file, await inspect(it.file), { dropLocation: o.geo });
           await saveTo(dir, baseName(it.path) + '.mp4', blob, used);
         } else {
@@ -161,7 +162,7 @@ async function run() {
     show('finish');
     if (saved) nudge.success();
     const parts = [t('doneText', { n: saved }), dir ? t('savedTo') : t('downloaded')];
-    if (todo.some((i) => i.kind === 'video')) parts.push(t('keptDate'));
+    if (!o.sound && todo.some((i) => i.kind === 'video')) parts.push(t('keptDate'));
     $('doneText').textContent = parts.join(' ');
     $('failText').hidden = !failed.length; $('failText').textContent = t('failed', { n: failed.length, names: failed.join(', ') });
     $('freeDone').hidden = todo.length === items.length; $('freeBtn').hidden = $('freeDone').hidden; $('freeDone').textContent = t('freeNote', { n: FREE_LIMIT });

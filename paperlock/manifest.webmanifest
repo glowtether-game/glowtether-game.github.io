@@ -1,0 +1,63 @@
+{
+ "id": "./",
+ "name": "Paperlock",
+ "short_name": "Paperlock",
+ "description": "Add or remove PDF passwords on your PC. Nothing is uploaded.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "background_color": "#f6f7f9",
+ "theme_color": "#f6f7f9",
+ "lang": "en",
+ "dir": "ltr",
+ "categories": [
+  "productivity",
+  "utilities",
+  "business"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ],
+ "file_handlers": [
+  {
+   "action": "./",
+   "accept": {
+    "application/pdf": [
+     ".pdf"
+    ]
+   }
+  }
+ ],
+ "launch_handler": {
+  "client_mode": "focus-existing"
+ },
+ "screenshots": [
+  {
+   "src": "screenshots/1.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  },
+  {
+   "src": "screenshots/2.png",
+   "sizes": "1280x800",
+   "type": "image/png",
+   "form_factor": "wide"
+  }
+ ]
+}

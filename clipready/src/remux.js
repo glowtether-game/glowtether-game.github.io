@@ -204,3 +204,47 @@ export async function remux(file, info, opts = {}) {
   writeBox(moov, headBytes, writeBox(ftyp, headBytes, 0));
   return new Blob([headBytes, ...mdats.map((m) => file.slice(m.start, m.end))], { type: 'video/mp4' });
 }
+
+/** Build an audio-only M4A (the first normal sound track) as a Blob, copying only that track's chunks.
+ *  Used to make an MP3 from a video without reading the whole video into memory. */
+export async function audioOnly(file, info) {
+  info ||= await inspect(file);
+  const { tops } = info;
+  const mu = new Uint8Array(await file.slice(tops.find((b) => b.type === 'moov').start, tops.find((b) => b.type === 'moov').end).arrayBuffer());
+  const moov = { type: 'moov', kids: parseKids(mu, 8, mu.length) };
+  const sounds = moov.kids.filter((k) => k.type === 'trak' && handlerOf(k) === 'soun');
+  const t = sounds.find((k) => sampleEntry(k) !== 'apac') || sounds[0];
+  if (!t) throw new Error('no audio');
+  moov.kids = moov.kids.filter((k) => k.type === 'mvhd' || k === t);
+  t.kids = t.kids.filter((k) => !['tref', 'tapt', 'load', 'meta', 'clip', 'matt', 'imap'].includes(k.type));
+  const mdia = kid(t, 'mdia'); const minf = kid(mdia, 'minf'); const stbl = kid(minf, 'stbl');
+  fixHdlr(kid(mdia, 'hdlr'), 'soun'); fixMdhd(kid(mdia, 'mdhd'));
+  minf.kids = minf.kids.filter((k) => k.type !== 'hdlr' && k.type !== 'gmhd');
+  fixDinf(minf); fixSoundEntry(kid(stbl, 'stsd'));
+  // chunk sizes from stsz + stsc
+  const stsz = kid(stbl, 'stsz').data, stsc = kid(stbl, 'stsc').data, st = kid(stbl, 'stco') || kid(stbl, 'co64');
+  const fixed = u32(stsz, 4), count = u32(stsz, 8);
+  const size = (i) => fixed || u32(stsz, 12 + i * 4);
+  const is64 = st.type === 'co64', nChunks = u32(st.data, 4);
+  const offs = []; for (let i = 0; i < nChunks; i++) offs.push(is64 ? u64(st.data, 8 + i * 8) : u32(st.data, 8 + i * 4));
+  const runs = []; for (let i = 0; i < u32(stsc, 4); i++) runs.push([u32(stsc, 8 + i * 12), u32(stsc, 12 + i * 12)]);
+  const lens = []; let s = 0;
+  for (let c = 0; c < nChunks; c++) {
+    let per = 0; for (const [first, n] of runs) if (first <= c + 1) per = n;
+    let len = 0; for (let k = 0; k < per && s < count; k++, s++) len += size(s);
+    lens.push(len);
+  }
+  const total = lens.reduce((a, b) => a + b, 0);
+  const big = total + 1e7 > 4294967295;
+  const nb = { type: big ? 'co64' : 'stco', data: new Uint8Array(8 + nChunks * (big ? 8 : 4)) };
+  put32(nb.data, 4, nChunks);
+  stbl.kids[stbl.kids.indexOf(st)] = nb;
+  const ftyp = box('ftyp', cat(str('M4A '), new Uint8Array(4), str('M4A mp42isom')));
+  const head = boxSize(ftyp) + boxSize(moov) + 8;
+  let pos = head;
+  for (let c = 0; c < nChunks; c++) { if (big) put64(nb.data, 8 + c * 8, pos); else put32(nb.data, 8 + c * 4, pos); pos += lens[c]; }
+  const headBytes = new Uint8Array(head);
+  let p = writeBox(moov, headBytes, writeBox(ftyp, headBytes, 0));
+  put32(headBytes, p, total + 8); headBytes.set(str('mdat'), p + 4);
+  return new Blob([headBytes, ...offs.map((o, c) => file.slice(o, o + lens[c]))], { type: 'audio/mp4' });
+}
