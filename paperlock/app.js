@@ -5,7 +5,7 @@ import { LANG, makeT, $, el, baseName, saveTo, csvBlob, readCsvFile, showPro, wi
 
 const VERSION = '1.0.0';
 const FREE_LIMIT = 1;
-const STORE_ID = ''; // set when the Store product is reserved
+const STORE_ID = '9NLXQCMJPXMF';
 const pro = makePro({ sku: 'paperlock_pro', storeId: STORE_ID, key: 'paperlock-pro' });
 
 const T = withPro({

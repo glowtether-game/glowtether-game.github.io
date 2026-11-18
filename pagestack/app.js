@@ -6,7 +6,7 @@ import { PDFDocument, degrees } from './vendor/pdf-lib.esm.min.js';
 
 const VERSION = '1.0.0';
 const FREE_MERGE = 3; // files per merge in the free version
-const STORE_ID = '';
+const STORE_ID = '9NHMM322PGJ5';
 const pro = makePro({ sku: 'pagestack_pro', storeId: STORE_ID, key: 'pagestack-pro' });
 
 const T = withPro({
