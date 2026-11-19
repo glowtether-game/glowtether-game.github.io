@@ -5,7 +5,7 @@ import { showMore } from './vendor/more.js';
 import { inspect, remux, audioOnly } from './src/remux.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.2.2';
+const VERSION = '1.2.3';
 const FREE_LIMIT = 3;
 const pro = makePro({ sku: 'clipready_pro', storeId: '9PPC4KF7HLQL', key: 'clipready-pro' });
 

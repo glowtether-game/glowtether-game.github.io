@@ -6,7 +6,7 @@ import { showMore } from './vendor/more.js';
 import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.1.2';
+const VERSION = '1.1.3';
 const FREE_LIMIT = 100;
 const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 

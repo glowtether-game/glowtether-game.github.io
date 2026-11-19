@@ -5,7 +5,7 @@ import { showMore } from './vendor/more.js';
 import { LANG, makeT, $, el, baseName, saveTo, csvBlob, readCsvFile, showPro, withPro, dropZone } from './vendor/appkit.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.3';
+const VERSION = '1.0.4';
 const FREE_LIMIT = 1;
 const STORE_ID = '9NLXQCMJPXMF';
 const pro = makePro({ sku: 'paperlock_pro', storeId: STORE_ID, key: 'paperlock-pro' });
