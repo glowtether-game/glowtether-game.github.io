@@ -4,10 +4,11 @@ import { readTables, readLegacyTables, tableById, formatCell } from './src/table
 import { makeDocx, makeXlsx, makeCsv, makeTxt, makeImageZip, keynoteOutline, pagesText } from './src/export.js';
 import { makePptx } from './src/pptx.js';
 import { makeNudge } from './src/nudge.js';
+import { showMore } from './src/more.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.4.1';
+const VERSION = '1.4.2';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------
@@ -444,3 +445,5 @@ if (window.DOCPEEK_PREVIEW) {
   async function loadSample(f) { $('busy').hidden = false; try { const r = await fetch('samples/' + f); openBytes(new Uint8Array(await r.arrayBuffer()), f); } catch (e) { showError(e); } finally { $('busy').hidden = true; } }
   loadSample('Trip budget.numbers');
 }
+
+showMore({ from: 'docpeek', lang: LANG, where });

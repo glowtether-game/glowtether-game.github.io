@@ -1,11 +1,12 @@
 import { pickOutputFolder, filesFromDrop, filesFromInput } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
+import { showMore } from './vendor/more.js';
 import { LANG, makeT, $, el, baseName, safeName, saveTo, showPro, withPro, dropZone } from './vendor/appkit.js';
 import { PDFDocument, degrees } from './vendor/pdf-lib.esm.min.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.2';
+const VERSION = '1.0.3';
 const FREE_MERGE = 3; // files per merge in the free version
 const STORE_ID = '9NHMM322PGJ5';
 const pro = makePro({ sku: 'pagestack_pro', storeId: STORE_ID, key: 'pagestack-pro' });
@@ -278,3 +279,5 @@ dropZone(go, filesFromDrop);
 Promise.resolve(pro.init()).catch(() => {}).finally(() => nudge.webNote());
 window.__app = { go, get docs() { return docs; }, run, pro, setTab: (x) => { tab = x; render(); } };
 show('start');
+
+showMore({ from: 'pagestack', lang: LANG, where: () => pro.where() });

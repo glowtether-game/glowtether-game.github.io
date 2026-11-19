@@ -1,11 +1,12 @@
 import { pickOutputFolder, filesFromDrop, ZipOut } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
+import { showMore } from './vendor/more.js';
 import { LANG, makeT, $, el, safeName, saveTo, csvBlob, showPro, withPro, dropZone } from './vendor/appkit.js';
 import { indexMbox, rawMessage, summary, parseMessage, nameOf } from './src/mbox.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.2';
+const VERSION = '1.0.3';
 const STORE_ID = '9NLGX2T41Q8Z';
 const PAGE = 300;
 const pro = makePro({ sku: 'mailpeek_pro', storeId: STORE_ID, key: 'mailpeek-pro' });
@@ -212,3 +213,5 @@ dropZone(async (src) => { const f = src.find((s) => /\.(mbox|mbx|zip)$/i.test(s.
 Promise.resolve(pro.init()).catch(() => {}).finally(() => nudge.webNote());
 window.__app = { open, get sums() { return sums; }, view, pro, sel, exportCsv, exportEml, exportAtt, bodySearch };
 show('start');
+
+showMore({ from: 'mailpeek', lang: LANG, where: () => pro.where() });

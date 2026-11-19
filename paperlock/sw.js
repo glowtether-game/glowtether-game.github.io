@@ -1,5 +1,5 @@
-const CACHE = 'paperlock-1.0.2';
-const FILES = ["./", "index.html", "styles.css", "app.js", "manifest.webmanifest", "privacy.html", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "vendor/zipout.js", "vendor/fflate.js", "vendor/pro.js", "vendor/nudge.js", "vendor/appkit.js", "vendor/qpdf.js", "vendor/qpdf.wasm", "src/qpdf-worker.js", "i18n.js"];
+const CACHE = 'paperlock-1.0.3';
+const FILES = ["./", "index.html", "styles.css", "app.js", "manifest.webmanifest", "privacy.html", "icons/icon-192.png", "icons/icon-512.png", "icons/icon-maskable-512.png", "vendor/zipout.js", "vendor/fflate.js", "vendor/pro.js", "vendor/nudge.js", "vendor/more.js", "vendor/appkit.js", "vendor/qpdf.js", "vendor/qpdf.wasm", "src/qpdf-worker.js", "i18n.js"];
 self.addEventListener('install', (e) => { e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES.map((f) => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting())); });
 self.addEventListener('activate', (e) => { e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== CACHE).map((k) => caches.delete(k)))).then(() => self.clients.claim())); });
 self.addEventListener('fetch', (e) => {

@@ -2,10 +2,11 @@ import { Unzip, UnzipInflate } from './vendor/fflate.js';
 import { ZipOut, pickOutputFolder, filesFromDrop, filesFromInput, sha256, exifDate, ym, toBin, fromBin } from './vendor/zipout.js';
 import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
+import { showMore } from './vendor/more.js';
 import { plan, summarize, MEDIA_RE, VIDEO_RE } from './src/takeout.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.1.1';
+const VERSION = '1.1.2';
 const FREE_LIMIT = 100;
 const pro = makePro({ sku: 'redate_pro', storeId: '9PC1BKKH8RG4', key: 'redate-pro' });
 
@@ -205,3 +206,5 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.se
 Promise.resolve(pro.init()).catch(() => {}).finally(() => nudge.webNote());
 window.__redate = { go, get items() { return items; }, run, pro, show };
 show('start');
+
+showMore({ from: 'redate', lang: LANG, where: () => pro.where() });
