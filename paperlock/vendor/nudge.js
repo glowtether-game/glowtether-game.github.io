@@ -48,7 +48,7 @@ export function makeNudge({ app, storeId, key, lang, where, listed = true }) {
     webNote() {
       if (!listed || where() === 'store' || store(kWeb)) return;
       if (!/Windows/i.test(navigator.userAgent)) return;
-      setTimeout(() => bar(t('web'), t('webBtn'), `https://apps.microsoft.com/detail/${storeId}`, t('close'), () => store(kWeb, '1'), () => store(kWeb, '1')), 2500);
+      setTimeout(() => bar(t('web'), t('webBtn'), `https://apps.microsoft.com/detail/${storeId}?cid=web-nudge`, t('close'), () => store(kWeb, '1'), () => store(kWeb, '1')), 2500);
     },
   };
 }

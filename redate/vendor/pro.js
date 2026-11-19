@@ -13,8 +13,8 @@ export function makePro({ sku, storeId, key, live = false }) {
     return owned;
   }
   return {
-    storeWeb: `https://apps.microsoft.com/detail/${storeId}`,
-    storeApp: `ms-windows-store://pdp/?productid=${storeId}`,
+    storeWeb: `https://apps.microsoft.com/detail/${storeId}?cid=web-pro`,
+    storeApp: `ms-windows-store://pdp/?productid=${storeId}&cid=web-pro`,
     where: () => (service ? 'store' : 'web'),
     price: () => price,
     live: isLive,

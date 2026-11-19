@@ -6,8 +6,8 @@
 export const PRO_LIVE = true;
 export const SKU = 'docpeek_pro';
 export const STORE_ID = '9MWX5B6B0XPM';
-export const STORE_WEB = `https://apps.microsoft.com/detail/${STORE_ID}`;
-export const STORE_APP = `ms-windows-store://pdp/?productid=${STORE_ID}`;
+export const STORE_WEB = `https://apps.microsoft.com/detail/${STORE_ID}?cid=web-pro`;
+export const STORE_APP = `ms-windows-store://pdp/?productid=${STORE_ID}&cid=web-pro`;
 const BILLING = 'https://store.microsoft.com/billing';
 const KEY = 'docpeek-pro';
 

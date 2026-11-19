@@ -5,7 +5,7 @@ import { LANG, makeT, $, el, baseName, safeName, saveTo, showPro, withPro, dropZ
 import { PDFDocument, degrees } from './vendor/pdf-lib.esm.min.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.1';
+const VERSION = '1.0.2';
 const FREE_MERGE = 3; // files per merge in the free version
 const STORE_ID = '9NHMM322PGJ5';
 const pro = makePro({ sku: 'pagestack_pro', storeId: STORE_ID, key: 'pagestack-pro' });

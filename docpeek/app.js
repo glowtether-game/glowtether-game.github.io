@@ -7,7 +7,7 @@ import { makeNudge } from './src/nudge.js';
 import { initPro, hasPro, proLive, buyPro, restorePro, where, priceText, STORE_WEB, STORE_APP, _test as proTest } from './src/pro.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.4.0';
+const VERSION = '1.4.1';
 const ROW_PAGE = 1000;
 
 // ---------- i18n ----------

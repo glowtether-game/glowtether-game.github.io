@@ -5,7 +5,7 @@ import { LANG, makeT, $, el, safeName, saveTo, csvBlob, showPro, withPro, dropZo
 import { indexMbox, rawMessage, summary, parseMessage, nameOf } from './src/mbox.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.1';
+const VERSION = '1.0.2';
 const STORE_ID = '9NLGX2T41Q8Z';
 const PAGE = 300;
 const pro = makePro({ sku: 'mailpeek_pro', storeId: STORE_ID, key: 'mailpeek-pro' });
