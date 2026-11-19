@@ -51,7 +51,9 @@ export default {
   "eNoPages": "Es gibt keine Seiten zum Speichern.",
   "eTwo": "Fügen Sie zwei oder mehr PDFs zum Zusammenfügen hinzu (oder ordnen Sie mit Pro die Seiten einer PDF an).",
   "proTitle": "Pagestack Pro",
-  "proBody": "Beliebig viele PDFs zusammenfügen, Seiten vor dem Speichern anordnen (verschieben, drehen, löschen), viele PDFs auf einmal teilen und alle N Seiten teilen."
+  "proBody": "Seiten vor dem Speichern anordnen (verschieben, drehen, löschen), der zusammengefügten PDF ein Lesezeichen pro Datei und Seitenzahlen hinzufügen und alle N Seiten teilen. Beliebig viele Dateien zusammenfügen und teilen bleibt kostenlos.",
+  "bookmarks": "Für jede Datei ein Lesezeichen anlegen",
+  "pageNums": "Seitenzahlen einfügen"
  },
  "fr": {
   "drop": "Déposez des fichiers PDF ici",
@@ -104,7 +106,9 @@ export default {
   "eNoPages": "Il n’y a aucune page à enregistrer.",
   "eTwo": "Ajoutez au moins deux PDF à fusionner (ou organisez les pages d’un PDF avec Pro).",
   "proTitle": "Pagestack Pro",
-  "proBody": "Fusionnez autant de PDF que vous voulez, organisez les pages avant d’enregistrer (déplacer, faire pivoter, supprimer), divisez plusieurs PDF à la fois et divisez toutes les N pages."
+  "proBody": "Organisez les pages avant d’enregistrer (déplacer, faire pivoter, supprimer), ajoutez au PDF fusionné un signet par fichier et les numéros de page, et divisez toutes les N pages. Fusionner et diviser autant de fichiers que vous voulez reste gratuit.",
+  "bookmarks": "Ajouter un signet pour chaque fichier",
+  "pageNums": "Ajouter les numéros de page"
  },
  "es": {
   "drop": "Suelta archivos PDF aquí",
@@ -157,7 +161,9 @@ export default {
   "eNoPages": "No hay páginas para guardar.",
   "eTwo": "Añade dos o más PDF para unir (u ordena las páginas de un PDF con Pro).",
   "proTitle": "Pagestack Pro",
-  "proBody": "Une todos los PDF que quieras, ordena las páginas antes de guardar (mover, girar, eliminar), divide muchos PDF a la vez y divide cada N páginas."
+  "proBody": "Ordena las páginas antes de guardar (mover, girar, eliminar), añade al PDF unido un marcador por archivo y números de página, y divide cada N páginas. Unir y dividir todos los archivos que quieras sigue siendo gratis.",
+  "bookmarks": "Añadir un marcador por cada archivo",
+  "pageNums": "Añadir números de página"
  },
  "pt": {
   "drop": "Solte arquivos PDF aqui",
@@ -210,7 +216,9 @@ export default {
   "eNoPages": "Não há páginas para salvar.",
   "eTwo": "Adicione dois ou mais PDFs para juntar (ou organize as páginas de um PDF com o Pro).",
   "proTitle": "Pagestack Pro",
-  "proBody": "Junte quantos PDFs quiser, organize as páginas antes de salvar (mover, girar, excluir), divida vários PDFs de uma vez e divida a cada N páginas."
+  "proBody": "Organize as páginas antes de salvar (mover, girar, excluir), adicione ao PDF juntado um marcador por arquivo e números de página, e divida a cada N páginas. Juntar e dividir quantos arquivos quiser continua grátis.",
+  "bookmarks": "Adicionar um marcador para cada arquivo",
+  "pageNums": "Adicionar números de página"
  },
  "ko": {
   "drop": "PDF 파일을 여기에 끌어다 놓으세요",
@@ -263,6 +271,8 @@ export default {
   "eNoPages": "저장할 페이지가 없습니다.",
   "eTwo": "합치려면 PDF를 2개 이상 추가하세요(또는 Pro로 PDF 1개의 페이지를 정리하세요).",
   "proTitle": "Pagestack Pro",
-  "proBody": "PDF를 개수 제한 없이 합치고, 저장하기 전에 페이지를 정리(이동, 회전, 삭제)하고, 여러 PDF를 한 번에 나누고, N페이지마다 나눌 수 있습니다."
+  "proBody": "저장하기 전에 페이지 정리(이동·회전·삭제), 합친 PDF에 파일별 책갈피와 페이지 번호 추가, N페이지마다 나누기를 할 수 있습니다. 파일 개수에 관계없이 합치기·나누기는 계속 무료입니다.",
+  "bookmarks": "파일마다 책갈피 추가",
+  "pageNums": "페이지 번호 넣기"
  }
 };

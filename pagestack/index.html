@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Merge and Split PDF Files Offline (No Upload) | Pagestack</title>
-<meta name="description" content="Merge and split PDF files on your PC. Nothing is uploaded. Pro: any number of files, arrange, rotate and delete pages, split every N pages.">
+<meta name="description" content="Merge and split any number of PDF files on your PC, free. Nothing is uploaded. Pro: arrange, rotate and delete pages, a bookmark for each file, page numbers, split every N pages.">
 <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16181d" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://glowtether-game.github.io/pagestack/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Merge and Split PDF Files Offline (No Upload) | Pagestack">
-<meta property="og:description" content="Merge and split PDF files on your PC. Nothing is uploaded. Pro: any number of files, arrange, rotate and delete pages, split every N pages.">
+<meta property="og:description" content="Merge and split any number of PDF files on your PC, free. Nothing is uploaded. Pro: arrange, rotate and delete pages, a bookmark for each file, page numbers, split every N pages.">
 <meta property="og:url" content="https://glowtether-game.github.io/pagestack/">
 <meta property="og:image" content="https://glowtether-game.github.io/pagestack/screenshots/1.png">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pagestack", "description": "Merge and split PDF files on your PC. Nothing is uploaded. Pro: any number of files, arrange, rotate and delete pages, split every N pages.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows, web browser", "url": "https://glowtether-game.github.io/pagestack/", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "installUrl": "https://apps.microsoft.com/detail/9NHMM322PGJ5?cid=web-seo"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Pagestack", "description": "Merge and split any number of PDF files on your PC, free. Nothing is uploaded. Pro: arrange, rotate and delete pages, a bookmark for each file, page numbers, split every N pages.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows, web browser", "url": "https://glowtether-game.github.io/pagestack/", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "installUrl": "https://apps.microsoft.com/detail/9NHMM322PGJ5?cid=web-seo"}</script>
 <script>if(matchMedia('(display-mode: standalone)').matches)document.title='Pagestack'</script>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
@@ -57,6 +57,8 @@
     <div class="row"><button class="btn" id="addBtn" data-i18n="add">Add PDFs</button></div>
     <div id="mergePane">
       <label><input type="checkbox" id="arrange"> <span data-i18n="arrange">Arrange pages (move, rotate, delete)</span> <span class="badge pro-only">Pro</span></label>
+      <label><input type="checkbox" id="bookmarks"> <span data-i18n="bookmarks">Add a bookmark for each file</span> <span class="badge pro-only">Pro</span></label>
+      <label><input type="checkbox" id="pageNums"> <span data-i18n="pageNums">Add page numbers</span> <span class="badge pro-only">Pro</span></label>
       <div class="pages" id="pages" hidden></div>
       <label><span data-i18n="outName">File name</span> <input type="text" id="mergeName" style="padding:6px 9px;border:1px solid var(--line);border-radius:8px;font:inherit;background:var(--paper);color:var(--ink);min-width:0;width:260px;max-width:100%"></label>
     </div>

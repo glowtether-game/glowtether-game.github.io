@@ -3,11 +3,10 @@ import { makePro } from './vendor/pro.js';
 import { makeNudge } from './vendor/nudge.js';
 import { showMore } from './vendor/more.js';
 import { LANG, makeT, $, el, baseName, safeName, saveTo, showPro, withPro, dropZone } from './vendor/appkit.js';
-import { PDFDocument, degrees } from './vendor/pdf-lib.esm.min.js';
+import { PDFDocument, degrees, StandardFonts, rgb, PDFName, PDFHexString } from './vendor/pdf-lib.esm.min.js';
 import I18N from './i18n.js';
 
-const VERSION = '1.0.4';
-const FREE_MERGE = 3; // files per merge in the free version
+const VERSION = '1.1.0';
 const STORE_ID = '9NHMM322PGJ5';
 const pro = makePro({ sku: 'pagestack_pro', storeId: STORE_ID, key: 'pagestack-pro' });
 
@@ -17,7 +16,7 @@ const T = withPro({
     tag: 'Contracts, statements and forms stay on your PC. No size limit, no waiting in line.', reading: 'Reading… {n} files',
     tabMerge: 'Merge', tabSplit: 'Split', add: 'Add PDFs', pages: '{n} pages', page1: '1 page', up: 'Move up', down: 'Move down', remove: 'Remove',
     eEnc: 'has a password (remove it first, for example with Paperlock)', eBad: 'cannot be read',
-    arrange: 'Arrange pages (move, rotate, delete)', outName: 'File name', mergedName: 'merged',
+    arrange: 'Arrange pages (move, rotate, delete)', bookmarks: 'Add a bookmark for each file', pageNums: 'Add page numbers', outName: 'File name', mergedName: 'merged',
     howEach: 'One PDF per page', howRanges: 'Page ranges, one PDF each', howEvery: 'Every', howEvery2: 'pages',
     rangesHelp: 'Ranges: "1-3" pages 1 to 3, "5" page 5, "8-" page 8 to the end. Separate with commas.',
     saveMerge: 'Merge and save', saveSplit: 'Split and save', left: 'Move left', right: 'Move right', rotate: 'Rotate', del: 'Delete', pageOf: '{f} p.{p}',
@@ -25,14 +24,14 @@ const T = withPro({
     working: 'Working… {i} of {n}', done: 'Done', doneMerge: 'Saved {f} ({n} pages).', doneSplit: 'Saved {n} PDF(s).', savedTo: 'It is in the folder you chose.', savedToN: 'They are in the folder you chose.', downloaded: 'Look in your Downloads folder.',
     failed: '{n} file(s) were left out: {names}', back: 'Back to these files', again: 'Start over', none: 'No PDF files were found.', err: 'Something went wrong: {m}', privacy: 'Privacy',
     eRanges: 'Type page ranges, for example 1-3, 5, 8-', eNoPages: 'There are no pages to save.', eTwo: 'Add two or more PDFs to merge (or arrange the pages of one PDF with Pro).',
-    proTitle: 'Pagestack Pro', proBody: 'Merge any number of PDFs, arrange pages (move, rotate, delete) before saving, split many PDFs at once and split every N pages.',
+    proTitle: 'Pagestack Pro', proBody: 'Arrange pages before saving (move, rotate, delete), add a bookmark for each file and page numbers to the merged PDF, and split every N pages. Merging and splitting any number of files stays free.',
   },
   ja: {
     drop: 'PDF をここにドラッグ', sub: 'この PC の中で PDF をつなぐ・分ける。アップロードはしません。', chooseFiles: 'PDF を選ぶ', chooseFolder: 'フォルダーを選ぶ',
     tag: '契約書・明細・申込書が PC の外に出ません。大きさの上限も、待ち時間もありません。', reading: '読み込み中… {n} 件',
     tabMerge: 'つなぐ（結合）', tabSplit: '分ける（分割）', add: 'PDF を足す', pages: '{n} ページ', page1: '1 ページ', up: '上へ', down: '下へ', remove: '外す',
     eEnc: 'パスワードがかかっています（Paperlock などで先に外してください）', eBad: '読み取れません',
-    arrange: 'ページを並べ替える（移動・回転・削除）', outName: 'ファイル名', mergedName: '結合',
+    arrange: 'ページを並べ替える（移動・回転・削除）', bookmarks: 'ファイルごとにしおりを付ける', pageNums: 'ページ番号を入れる', outName: 'ファイル名', mergedName: '結合',
     howEach: '1ページずつ別の PDF に', howRanges: 'ページの範囲ごとに PDF に', howEvery: '', howEvery2: 'ページごとに PDF に',
     rangesHelp: '範囲の書き方：「1-3」は1〜3ページ、「5」は5ページ、「8-」は8ページから最後まで。カンマで区切ります。',
     saveMerge: 'つないで保存', saveSplit: '分けて保存', left: '左へ', right: '右へ', rotate: '回転', del: '削除', pageOf: '{f} {p}ページ',
@@ -40,7 +39,7 @@ const T = withPro({
     working: '処理中… {n} 件中 {i} 件', done: '完了', doneMerge: '{f} を保存しました（{n} ページ）。', doneSplit: 'PDF を {n} 件保存しました。', savedTo: '選んだフォルダーに入っています。', savedToN: '選んだフォルダーに入っています。', downloaded: 'ダウンロードフォルダーを見てください。',
     failed: '対象外にしたファイル {n} 件：{names}', back: 'このファイルに戻る', again: '最初から', none: 'PDF が見つかりませんでした。', err: '問題が起きました：{m}', privacy: 'プライバシー',
     eRanges: 'ページの範囲を入力してください（例：1-3, 5, 8-）', eNoPages: '保存するページがありません。', eTwo: 'つなぐには PDF を2つ以上入れてください（1つの PDF のページの並べ替えは Pro でできます）。',
-    proTitle: 'Pagestack Pro', proBody: '数の制限なしで PDF をつなぐ、保存の前にページを並べ替える（移動・回転・削除）、たくさんの PDF をまとめて分ける、Nページごとに分けることができます。',
+    proTitle: 'Pagestack Pro', proBody: '保存の前にページを並べ替える（移動・回転・削除）、つないだ PDF にファイルごとのしおりとページ番号を入れる、Nページごとに分けることができます。何個でもつなぐ・分けるのは無料のままです。',
   },
 }, 'Pagestack');
 Object.assign(T, I18N); withPro(T, 'Pagestack');
@@ -104,9 +103,7 @@ function render() {
   const lim = pro.live() && !pro.has();
   for (const b of document.querySelectorAll('.pro-only')) b.hidden = !lim;
   const fn = $('freeNote');
-  if (lim && tab === 'merge' && okDocs().length > FREE_MERGE) { fn.hidden = false; fn.textContent = t('freeMerge', { n: FREE_MERGE }); }
-  else if (lim && tab === 'split' && okDocs().length > 1) { fn.hidden = false; fn.textContent = t('freeSplit'); }
-  else fn.hidden = true;
+  fn.hidden = true;
   $('arrange').checked = !!order;
   $('pages').hidden = !order || tab !== 'merge';
   if (order && tab === 'merge') drawPages();
@@ -182,7 +179,7 @@ function parseRanges(s, count) {
   return out.length ? out : null;
 }
 
-async function buildPdf(list) { // list: [{d, p, rot}]
+async function buildPdf(list, opts = {}) { // list: [{d, p, rot}]; opts: { bookmarks, pageNums } (Pro, merge only)
   const out = await PDFDocument.create();
   const byDoc = new Map();
   for (const x of list) { if (!byDoc.has(x.d)) byDoc.set(x.d, []); byDoc.get(x.d).push(x.p); }
@@ -196,7 +193,45 @@ async function buildPdf(list) { // list: [{d, p, rot}]
     if (x.rot) pg.setRotation(degrees((pg.getRotation().angle + x.rot) % 360));
     out.addPage(pg);
   }
+  if (opts.pageNums) await addPageNumbers(out);
+  if (opts.bookmarks) {
+    const seen = new Set(), items = [];
+    list.forEach((x, i) => { if (!seen.has(x.d)) { seen.add(x.d); items.push({ title: baseName(docs[x.d].name), page: i }); } });
+    addOutline(out, items);
+  }
   return new Blob([await out.save()], { type: 'application/pdf' });
+}
+
+// Page number at the bottom centre of each page as it is shown (rotation taken into account).
+async function addPageNumbers(out) {
+  const font = await out.embedFont(StandardFonts.Helvetica), size = 9, m = 18;
+  const pages = out.getPages(), total = pages.length;
+  pages.forEach((pg, i) => {
+    const text = `${i + 1} / ${total}`, tw = font.widthOfTextAtSize(text, size);
+    const b = pg.getCropBox(), r = ((pg.getRotation().angle % 360) + 360) % 360;
+    let cx, cy;
+    if (r === 90) { cx = b.x + b.width - m; cy = b.y + b.height / 2; }
+    else if (r === 180) { cx = b.x + b.width / 2; cy = b.y + b.height - m; }
+    else if (r === 270) { cx = b.x + m; cy = b.y + b.height / 2; }
+    else { cx = b.x + b.width / 2; cy = b.y + m; }
+    const a = r * Math.PI / 180;
+    pg.drawText(text, { x: cx - (tw / 2) * Math.cos(a), y: cy - (tw / 2) * Math.sin(a), size, font, color: rgb(0.35, 0.35, 0.35), rotate: degrees(r) });
+  });
+}
+
+// One bookmark per source file, pointing at the page where that file starts.
+function addOutline(out, items) {
+  if (!items.length) return;
+  const ctx = out.context, pages = out.getPages(), root = ctx.nextRef(), refs = items.map(() => ctx.nextRef());
+  items.forEach((it, i) => {
+    const d = ctx.obj({ Title: PDFHexString.fromText(it.title), Parent: root, Dest: [pages[it.page].ref, 'XYZ', null, null, null] });
+    if (i > 0) d.set(PDFName.of('Prev'), refs[i - 1]);
+    if (i < items.length - 1) d.set(PDFName.of('Next'), refs[i + 1]);
+    ctx.assign(refs[i], d);
+  });
+  ctx.assign(root, ctx.obj({ Type: 'Outlines', First: refs[0], Last: refs[refs.length - 1], Count: items.length }));
+  out.catalog.set(PDFName.of('Outlines'), root);
+  out.catalog.set(PDFName.of('PageMode'), PDFName.of('UseOutlines'));
 }
 
 async function run() {
@@ -205,13 +240,14 @@ async function run() {
   if (tab === 'merge') {
     const good = okDocs();
     if (!order && good.length < 2) return alertBox(t('eTwo'));
-    if (lim && (good.length > FREE_MERGE || order)) { showPro(pro, t, render); return; }
+    const bm = $('bookmarks').checked, pn = $('pageNums').checked;
+    if (lim && (order || bm || pn)) { showPro(pro, t, render); return; }
     const list = order || docs.flatMap((d, di) => (d.err ? [] : Array.from({ length: d.count }, (_, p) => ({ d: di, p, rot: 0 }))));
     if (!list.length) return alertBox(t('eNoPages'));
     let dir = null; try { dir = await pickOutputFolder(); } catch (e) { return; }
     busy(t('working', { i: 1, n: 1 }));
     try {
-      const name = await saveTo(dir, safeName($('mergeName').value || t('mergedName')).replace(/\.pdf$/i, '') + '.pdf', await buildPdf(list), new Set());
+      const name = await saveTo(dir, safeName($('mergeName').value || t('mergedName')).replace(/\.pdf$/i, '') + '.pdf', await buildPdf(list, { bookmarks: bm, pageNums: pn }), new Set());
       finish(t('doneMerge', { f: name, n: list.length }) + ' ' + (dir ? t('savedTo') : t('downloaded')), docs.filter((d) => d.err), false);
     } catch (e) { render(); alertBox(t('err', { m: e.message || String(e) })); }
     return;
@@ -219,9 +255,8 @@ async function run() {
   // split
   const how = document.querySelector('input[name=how]:checked').value;
   if (how === 'every' && lim) { showPro(pro, t, render); return; }
-  let good = okDocs();
-  const limited = lim && good.length > 1;
-  if (limited) good = good.slice(0, 1);
+  const good = okDocs();
+  const limited = false;
   if (how === 'ranges' && !$('ranges').value.trim()) return alertBox(t('eRanges'));
   let dir = null; try { dir = await pickOutputFolder(); } catch (e) { return; }
   const used = new Set(); let saved = 0;
@@ -269,6 +304,7 @@ $('arrange').onchange = (e) => {
   if (e.target.checked) rebuildOrder(); else order = null;
   render();
 };
+for (const id of ['bookmarks', 'pageNums']) $(id).addEventListener('change', (e) => { if (e.target.checked && pro.live() && !pro.has()) { e.target.checked = false; showPro(pro, t, () => { e.target.checked = true; }); } });
 document.querySelector('input[name=how][value=every]').addEventListener('change', (e) => { if (pro.live() && !pro.has()) { document.querySelector('input[name=how][value=each]').checked = true; showPro(pro, t, () => { e.target.checked = true; }); } });
 $('ranges').addEventListener('focus', () => { document.querySelector('input[name=how][value=ranges]').checked = true; });
 $('startBtn').onclick = run;
